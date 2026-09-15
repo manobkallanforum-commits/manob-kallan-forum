@@ -222,9 +222,9 @@
             <div class="form-box">
                 <label>মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="loginPhone" placeholder="016XXXXXXXX" required>
-                <!-- পাসওয়ার্ডের ঘর ফাঁকা করা হয়েছে -->
-                <label>পাসওয়ার্ড (ডিফল্ট: 1234)ঃ</label>
-                <input type="password" id="loginPassword" placeholder="আপনার পিন দিন (না দিলে 1234)" required>
+                <!-- পাসওয়ার্ডের অংশ থেকে ডিফল্ট লেখা সম্পূর্ণ মুছে ফেলা হয়েছে -->
+                <label>পাসওয়ার্ডঃ</label>
+                <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড লিখুন" required>
                 <button class="submit-btn" style="margin-top: 10px;" onclick="processLogin()">প্রবেশ করুন</button>
             </div>
         </div>
@@ -269,7 +269,7 @@
                 <select id="regProfession" onchange="checkProfession('regProfession', 'studentFields')">
                     <option value="">পেশা নির্বাচন করুন...</option>
                     <option value="শিক্ষার্থী">শিক্ষার্থী</option>
-                    <option value="শিক্ষ শিক্ষক">শিক্ষক</option>
+                    <option value="শিক্ষক">শিক্ষক</option>
                     <option value="কৃষক">কৃষক</option>
                     <option value="ব্যবসায়ী">ব্যবসায়ী</option>
                     <option value="সরকারি চাকরিজীবী">সরকারি চাকরিজীবী</option>
@@ -300,9 +300,9 @@
                 <input type="date" id="regLastDonationDate">
                 <label>লগিন মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="regPhone" placeholder="016XXXXXXXX">
-                <!-- পাসওয়ার্ডের ঘর ফাঁকা করা হয়েছে -->
-                <label>লগিন পিন (ডিফল্ট: 1234)ঃ</label>
-                <input type="password" id="regPassword" placeholder="নতুন পিন দিন (না দিলে 1234)">
+                <!-- পাসওয়ার্ডের অংশ থেকে ডিফল্ট লেখা সম্পূর্ণ মুছে ফেলা হয়েছে -->
+                <label>পাসওয়ার্ডঃ</label>
+                <input type="password" id="regPassword" placeholder="পাসওয়ার্ড লিখুন">
                 <button class="submit-btn" style="background:#00796b; margin-top: 10px;" onclick="submitRegistration()">নিবন্ধন সম্পন্ন করুন</button>
             </div>
         </div>
@@ -444,7 +444,7 @@
                 </select>
                 <label>কমিটির বিবরণ ও সদস্য তালিকা:</label>
                 <textarea id="adminCommitteeDesc" rows="6" placeholder="সভাপতি - ...&#10;সেক্রেটারি - ...&#10;১ - ..."></textarea>
-                <label>অ্যাডমিন পিন (ডিফল্ট: 1234):</label>
+                <label>অ্যাডমিন পিন:</label>
                 <input type="password" id="adminPinInput" placeholder="পিন দিন">
                 <button class="submit-btn" style="background:#00796b;" onclick="saveCommitteeData()">কমিটি আপডেট করুন</button>
             </div>
@@ -638,7 +638,7 @@
                     <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
                     <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
                     <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
-                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা ইউনিয়ন</option>
                     <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
                     <option value="৭নং বামনী">৭নং বামনী</option>
                     <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
@@ -977,7 +977,6 @@
             showScreen("authScreen");
         }
 
-        // টাইম-বেসড গ্রিটিংস স্লাইডার লজিক (রাত ১২টার পর শুভ রাত্রি সহ)
         function setupTimeBasedGreeting() {
             let hour = new Date().getHours();
             let greeting = "শুভ রাত্রি";
@@ -999,7 +998,7 @@
 
         function setupRealtimeListeners() {
             setupTimeBasedGreeting();
-            setInterval(setupTimeBasedGreeting, 60000); // প্রতি ১ মিনিট পর পর চেক করবে
+            setInterval(setupTimeBasedGreeting, 60000); 
 
             db.ref('bloodRequests').on('value', snapshot => {
                 globalRequests = []; 
@@ -1065,9 +1064,6 @@
             }
         }
 
-        // ==========================================
-        // অ্যাডমিন প্যানেল ফাংশন
-        // ==========================================
         function loadAdminTotalMembersCount() {
             db.ref('users').once('value').then(snap => {
                 let count = snap.exists() ? Object.keys(snap.val()).length : 0;
@@ -1374,9 +1370,6 @@
             });
         }
 
-        // ==========================================
-        // রেন্ডার সিস্টেম (কমিটি, লিডারবোর্ড ও ক্যাটাগরি)
-        // ==========================================
         function loadTopDonorsLeaderboard() {
             let lbDiv = document.getElementById("topDonorsLeaderboard");
             lbDiv.innerHTML = "লোড হচ্ছে...";
@@ -1455,7 +1448,6 @@
                 container.innerHTML = `<div class="form-box text-center" style="color:#888;">এই ক্যাটাগরিতে এখনো কোনো আপডেট বা ছবি নেই।</div>`;
             }
         }
-        // ==========================================
 
         function calculateDonationTime(dateStr) {
             if(!dateStr) return "তথ্য নেই";
@@ -1496,7 +1488,6 @@
             }
         }
 
-        // সার্টিফিকেট জেনারেটর ফাংশন
         function generateCertificate() {
             let date = document.getElementById("certDonationDate").value;
             let cBox = document.getElementById("certificateContainer");
