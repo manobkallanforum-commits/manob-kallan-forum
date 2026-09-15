@@ -222,8 +222,9 @@
             <div class="form-box">
                 <label>মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="loginPhone" placeholder="016XXXXXXXX" required>
+                <!-- পাসওয়ার্ডের ঘর ফাঁকা করা হয়েছে -->
                 <label>পাসওয়ার্ড (ডিফল্ট: 1234)ঃ</label>
-                <input type="password" id="loginPassword" value="1234" placeholder="আপনার পিন দিন" required>
+                <input type="password" id="loginPassword" placeholder="আপনার পিন দিন (না দিলে 1234)" required>
                 <button class="submit-btn" style="margin-top: 10px;" onclick="processLogin()">প্রবেশ করুন</button>
             </div>
         </div>
@@ -268,7 +269,7 @@
                 <select id="regProfession" onchange="checkProfession('regProfession', 'studentFields')">
                     <option value="">পেশা নির্বাচন করুন...</option>
                     <option value="শিক্ষার্থী">শিক্ষার্থী</option>
-                    <option value="শিক্ষক">শিক্ষক</option>
+                    <option value="শিক্ষ শিক্ষক">শিক্ষক</option>
                     <option value="কৃষক">কৃষক</option>
                     <option value="ব্যবসায়ী">ব্যবসায়ী</option>
                     <option value="সরকারি চাকরিজীবী">সরকারি চাকরিজীবী</option>
@@ -299,8 +300,9 @@
                 <input type="date" id="regLastDonationDate">
                 <label>লগিন মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="regPhone" placeholder="016XXXXXXXX">
+                <!-- পাসওয়ার্ডের ঘর ফাঁকা করা হয়েছে -->
                 <label>লগিন পিন (ডিফল্ট: 1234)ঃ</label>
-                <input type="password" id="regPassword" value="1234" placeholder="পিন দিন">
+                <input type="password" id="regPassword" placeholder="নতুন পিন দিন (না দিলে 1234)">
                 <button class="submit-btn" style="background:#00796b; margin-top: 10px;" onclick="submitRegistration()">নিবন্ধন সম্পন্ন করুন</button>
             </div>
         </div>
