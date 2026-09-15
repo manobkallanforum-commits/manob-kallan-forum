@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মানব কল্যাণ ফোরাম</title>
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --secondary: #1976d2;
+            --success: #388e3c;
+            --dark: #333;
+            --light: #f4f7f6;
+            --bg-card: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: var(--light); color: var(--dark); -webkit-tap-highlight-color: transparent;}
+        
+        header { background: var(--primary); color: white; padding: 18px 15px; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3); display: flex; flex-direction: column; align-items: center; position: sticky; top: 0; z-index: 100;}
+        header h1 { margin: 0; font-size: 24px; text-align: center; width: 100%; font-weight: 800; letter-spacing: 0.5px;}
+        header p { margin: 5px 0 0; font-size: 13px; line-height: 1.4; text-align: center; opacity: 0.9;}
+
+        .container { padding: 15px; padding-bottom: 50px; }
+        
+        .section-heading { text-align: center; background: linear-gradient(135deg, #00796b, #1976d2); color: white; padding: 12px 15px; border-radius: var(--border-radius); font-size: 18px; font-weight: bold; margin-top: 20px; margin-bottom: 15px; box-shadow: var(--shadow); letter-spacing: 0.5px;}
+
+        .screen { display: none; animation: fadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #d32f2f; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .form-box { background: var(--bg-card); padding: 18px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 15px;}
+        
+        label { font-size: 14px; font-weight: 600; color: #555; margin-bottom: 5px; display: block; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 5px 0 18px; border: 1.5px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; font-size: 15px; transition: border-color 0.3s, box-shadow 0.3s; background: #fafafa;}
+        input:focus, select:focus, textarea:focus { border-color: var(--secondary); outline: none; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); background: #fff;}
+        input[readonly] { background-color: #f0f0f0; color: #666; font-weight: bold; border-color: #ddd;}
+        
+        input[type="file"] { display: block !important; margin: 15px auto; padding: 10px; background: #e0f2f1; border: 2px dashed #00796b; color: #00796b; font-weight: bold; cursor: pointer; text-align: center; }
+
+        .submit-btn { background: var(--primary); color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3); text-decoration: none; box-sizing: border-box; display: inline-block; text-align: center;}
+        .submit-btn:active { transform: scale(0.98); box-shadow: 0 2px 5px rgba(211, 47, 47, 0.3);}
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); margin-top: 10px; box-shadow: none;}
+        .back-btn { background: #607d8b; padding: 12px; color: white; border: none; border-radius: 8px; margin-bottom: 15px; width: 100%; cursor: pointer; font-size: 15px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        
+        .action-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .btn-edit { background: var(--secondary); color: white; padding: 12px; border: none; border-radius: 8px; flex: 1; cursor: pointer; font-weight: bold; font-size: 15px;}
+        .btn-logout { background: var(--primary); color: white; padding: 12px; border: none; border-radius: 8px; flex: 1; cursor: pointer; font-weight: bold; font-size: 15px;}
+
+        .radio-group { display: flex; gap: 15px; margin-bottom: 15px; background: #fff; padding: 12px; border-radius: 8px; border: 1.5px solid #e0e0e0;}
+        .radio-group label { display: flex; align-items: center; gap: 6px; font-weight: bold; font-size: 14px; cursor: pointer; margin: 0; display: inline-flex;}
+
+        .profile-upload-wrapper { text-align: center; margin-bottom: 20px; }
+        .profile-img-preview { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid #00796b; background: #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 10px;}
+
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .cat-card { background: var(--bg-card); padding: 18px 10px; text-align: center; border-radius: var(--border-radius); box-shadow: var(--shadow); cursor: pointer; font-weight: bold; font-size: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.2s;}
+        .cat-card:active { transform: scale(0.96); }
+        
+        .cat-red { color: #d32f2f; border-bottom: 4px solid #d32f2f; }
+        .cat-blue { color: #1976d2; border-bottom: 4px solid #1976d2; }
+        .cat-green { color: #388e3c; border-bottom: 4px solid #388e3c; }
+        .cat-orange { color: #f57c00; border-bottom: 4px solid #f57c00; }
+        .cat-purple { color: #8e24aa; border-bottom: 4px solid #8e24aa; }
+        .cat-pink { color: #d81b60; border-bottom: 4px solid #d81b60; }
+        .cat-indigo { color: #3949ab; border-bottom: 4px solid #3949ab; }
+        .cat-brown { color: #d32f2f; border-bottom: 4px solid #d32f2f; }
+        .cat-teal { color: #009688; border-bottom: 4px solid #009688; } 
+        .cat-cyan { color: #00acc1; border-bottom: 4px solid #00acc1; }
+
+        .home-profile-card { display: flex; align-items: center; background: var(--bg-card); padding: 16px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-top: 10px; margin-bottom: 5px; border-left: 5px solid #00796b; cursor: pointer; transition: transform 0.2s;}
+        .home-profile-card:active { transform: scale(0.98); }
+        .home-profile-card img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #00796b; margin-right: 15px; }
+        .home-profile-card .details { flex-grow: 1; }
+        .home-profile-card h3 { margin: 0 0 5px 0; color: var(--dark); font-size: 18px; font-weight: 700;}
+        .home-profile-card p { margin: 0; color: #666; font-size: 14px; }
+        .home-profile-card .arrow { color: #00796b; font-size: 22px; font-weight: bold; position: relative;}
+        
+        .badge-noti { background: #d32f2f; color: white; border-radius: 50%; padding: 3px 8px; font-size: 12px; margin-left: 5px; box-shadow: 0 2px 5px rgba(211,47,47,0.4); animation: pulse 1.5s infinite;}
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* প্রফেশনাল ডিজিটাল আইডি কার্ড ডিজাইন */
+        .id-card-container { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 25px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); text-align: center; max-width: 320px; margin: 20px auto; border: 3px solid #a7ffeb; position: relative; }
+        .id-card-container img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; object-fit: cover; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .id-card-container h2 { margin: 0 0 5px 0; font-size: 22px; font-weight: 800; }
+        .id-card-container p { margin: 4px 0; font-size: 14px; opacity: 0.95; }
+        .id-card-badge { background: #d32f2f; color: white; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-top: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+
+        /* অসাধারণ সার্টিফিকেট ডিজাইন */
+        .certificate-box { background: linear-gradient(to bottom, #ffffff, #f4fcf9); border: 10px double #00796b; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 15px; position: relative; }
+        .certificate-box h3 { color: #00796b; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+        .certificate-box h2 { color: #d32f2f; margin: 15px 0 5px 0; font-family: 'Georgia', serif; font-size: 26px; }
+        .certificate-actions { display: flex; gap: 10px; margin-top: 15px; }
+
+        .leaderboard-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 4px solid #ff9800; font-weight: bold; }
+
+        .profile-card { background: var(--bg-card); padding: 25px 20px; border-radius: 16px; box-shadow: var(--shadow); text-align: center; border-top: 6px solid #00796b; margin-top: 20px; }
+        .profile-card .info-row { text-align: left; margin-bottom: 12px; font-size: 15px; border-bottom: 1px dashed #e0e0e0; padding-bottom: 8px; display: flex; justify-content: space-between;}
+
+        /* সুন্দর কাস্টম মোডাল পপ-আপ ডিজাইন */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(3px);}
+        .modal-content { background: white; padding: 25px 20px; border-radius: 16px; text-align: center; width: 85%; max-width: 330px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: scaleUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);}
+        .modal-content h3 { margin-top: 0; color: #d32f2f; font-size: 20px;}
+        .modal-btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-btn { background: #d32f2f; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1; font-size: 15px;}
+        .modal-btn-cancel { background: #607d8b; }
+        @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* অ্যাকর্ডিয়ন / ড্রপডাউন স্টাইল (অ্যাডমিন প্যানেলের জন্য) */
+        .accordion-header { background: #00796b; color: white; padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .accordion-body { display: none; background: #fff; padding: 15px; border: 1.5px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; }
+
+        .slider-wrapper { background: var(--bg-card); padding: 10px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 15px;}
+        .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 10px; }
+        .slider::-webkit-scrollbar { height: 4px; }
+        .slider::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .slide-img { min-width: 100%; height: 180px; object-fit: cover; border-radius: 8px; scroll-snap-align: center; background: #eee; }
+        
+        .news-box { background: var(--bg-card); padding: 15px; border-radius: var(--border-radius); border-left: 5px solid #1976d2; font-size: 15px; color: #444; margin-bottom: 10px; box-shadow: var(--shadow); overflow: hidden; position: relative;}
+        .marquee-container { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; }
+        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 14s linear infinite; font-weight: bold; color: #d32f2f; }
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+
+        /* মার্ক করা জায়গায় বসানো নতুন টাইম-বেসড গ্রিটিংস স্লাইডার (ব্যাকগ্রাউন্ড সহ) */
+        .greeting-slider-box { background: linear-gradient(135deg, #00796b, #1976d2); color: white; padding: 15px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-top: 20px; overflow: hidden; position: relative; border-left: 6px solid #ff9800; }
+        .greeting-marquee { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; }
+        .greeting-marquee-content { display: inline-block; padding-left: 100%; animation: marqueeGreeting 14s linear infinite; font-weight: bold; font-size: 16px; color: #ffffff; }
+        @keyframes marqueeGreeting { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+
+        .text-center { text-align: center; }
+        #studentFields, #editStudentFields, #adminEditStudentFields { display: none; background: #f0f7fa; padding: 15px; border-radius: 8px; border-left: 4px solid #1976d2; margin-bottom: 15px; }
+
+        .union-list { list-style: none; padding: 0; margin: 0; }
+        .union-list li { background: var(--bg-card); padding: 16px; margin-bottom: 10px; border-radius: 8px; box-shadow: var(--shadow); border-left: 5px solid #00796b; font-weight: bold; color: #444; cursor: pointer; transition: transform 0.2s;}
+        .union-list li:active { transform: scale(0.98); }
+
+        .hotline-link { color: #1976d2; text-decoration: none; font-weight: bold; background: #e3f2fd; padding: 5px 10px; border-radius: 6px; display: inline-block; margin-top: 4px; transition: background 0.2s;}
+        
+        .committee-card { background: linear-gradient(145deg, #ffffff, #f0f4f4); border: 1px solid #d2dede; border-left: 6px solid #00796b; padding: 22px; border-radius: 16px; margin-bottom: 15px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+        .committee-card p { margin: 8px 0; font-size: 16px; color: #333; line-height: 1.7; font-weight: 500; border-bottom: 1px dashed #e0e0e0; padding-bottom: 6px; }
+
+        .post-card { background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; margin-top: 15px; box-shadow: var(--shadow); overflow: hidden; }
+        .post-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .post-card-body { padding: 15px; text-align: left; }
+        .post-card h4 { margin: 0 0 8px 0; color: #00796b; font-size: 18px; }
+        .post-card p { margin: 4px 0; font-size: 14px; color: #444; line-height: 1.5; }
+        .post-date { font-size: 12px; color: #888; display: block; margin-top: 10px; }
+
+        .donation-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .donation-table th, .donation-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        .donation-table th { background: #00acc1; color: white; }
+        .donation-table tr:nth-child(even) { background: #f9f9f9; }
+
+        .request-card { background: #fff5f5; border: 1px solid #ffcdd2; border-left: 5px solid #d32f2f; padding: 15px; border-radius: 10px; margin-top: 12px; text-align: left; position: relative; box-shadow: 0 2px 5px rgba(211,47,47,0.05); }
+        .request-card h4 { margin: 0 0 8px 0; color: #d32f2f; font-size: 16px;}
+        .request-card p { margin: 4px 0; font-size: 14px; color: #444;}
+        .btn-cancel-req { position: absolute; top: 12px; right: 12px; background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .btn-delete-admin { background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
+        .btn-delete-member { background: #d32f2f; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- সুন্দর কাস্টম মোডাল পপ-আপ -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle">মেসেজ</h3>
+            <p id="modalText" style="font-size: 15px; color: #555; line-height: 1.5; margin-bottom: 10px;">অপেক্ষা করুন...</p>
+            <div class="modal-btn-group" id="modalBtnGroup">
+                <button class="modal-btn" onclick="closeModal()">ঠিক আছে</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- জরুরি সাইরেন অ্যালার্ট পপ-আপ -->
+    <div id="sirenModal" class="modal-overlay">
+        <div class="modal-content" style="border: 3px solid #d32f2f;">
+            <h3 style="color: #d32f2f; font-size: 22px;">🚨 জরুরি রক্তের আবেদন!</h3>
+            <p id="sirenText" style="font-size: 16px; font-weight: bold; color: #333; line-height: 1.6;"></p>
+            <div class="modal-btn-group">
+                <button class="modal-btn" style="background: #388e3c;" id="sirenCallBtn">📞 কল করুন</button>
+                <button class="modal-btn modal-btn-cancel" onclick="closeSirenModal()">বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <h1>মানব কল্যাণ ফোরাম</h1>
+        <p>একটি অনলাইন ভিত্তিক স্বেচ্ছাসেবী ও রক্তদানকারী অরাজনৈতিক প্রতিষ্ঠান, রায়পুর।</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- ০. স্প্ল্যাশ/লোডিং স্ক্রিন -->
+        <div id="splashScreen" class="screen active">
+            <div style="text-align: center; margin-top: 80px;">
+                <h2 style="color: #d32f2f; margin-bottom: 10px;">মানব কল্যাণ ফোরাম</h2>
+                <p style="color: #666; font-size: 14px;">সার্ভারের সাথে কানেক্ট হচ্ছে...</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <!-- ১. অথেন্টিকেশন স্ক্রিন -->
+        <div id="authScreen" class="screen">
+            <div class="form-box" style="margin-top: 20px; text-align: center;">
+                <img src="https://via.placeholder.com/100/d32f2f/ffffff?text=MKF" style="border-radius: 50%; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <h2 style="color: #d32f2f; margin-bottom: 5px; font-weight: 800;">স্বাগতম</h2>
+                <p style="font-size: 14px; color: #666; margin-bottom: 25px;">মানব কল্যাণ ফোরামের অ্যাপে আপনাকে স্বাগতম। দয়া করে লগিন বা নিবন্ধন করুন।</p>
+                <button class="submit-btn" onclick="showScreen('loginScreen')">লগিন করুন</button>
+                <button class="submit-btn btn-outline" onclick="showScreen('registrationScreen')">নতুন সদস্য নিবন্ধন</button>
+            </div>
+        </div>
+
+        <!-- ২. লগিন স্ক্রিন -->
+        <div id="loginScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('authScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#d32f2f; margin-bottom: 20px;">লগিন করুন</h2>
+            <div class="form-box">
+                <label>মোবাইল নাম্বারঃ</label>
+                <input type="tel" id="loginPhone" placeholder="016XXXXXXXX" required>
+                <label>পাসওয়ার্ড (ডিফল্ট: 1234)ঃ</label>
+                <input type="password" id="loginPassword" value="1234" placeholder="আপনার পিন দিন" required>
+                <button class="submit-btn" style="margin-top: 10px;" onclick="processLogin()">প্রবেশ করুন</button>
+            </div>
+        </div>
+
+        <!-- ৩. রেজিস্ট্রেশন স্ক্রিন -->
+        <div id="registrationScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('authScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">সদস্য নিবন্ধন ফরম</h2>
+            
+            <div class="form-box">
+                <div class="profile-upload-wrapper">
+                    <img src="https://via.placeholder.com/110?text=Photo" id="profilePreview" class="profile-img-preview">
+                    <input type="file" id="profileImageInput" accept="image/*" onchange="previewImage(event, 'profilePreview', true)">
+                </div>
+                <label>নামঃ</label>
+                <input type="text" id="regName" placeholder="উদাঃ রাজন হোসাইন">
+                <input type="hidden" id="regDesignation" value="সদস্য">
+                <label>পিতার নামঃ</label>
+                <input type="text" id="regFName" placeholder="পিতার নাম লিখুন">
+                <label>বর্তমান ঠিকানাঃ</label>
+                <input type="text" id="regFullAddress" placeholder="উদাঃ বাজার রোড, রায়পুর">
+                <label>ইউনিয়ন নির্বাচন করুনঃ</label>
+                <select id="regUnion">
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
+                    <option value="৭নং বামনী">৭নং বামনী</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর</option>
+                </select>
+                <label>গ্রামঃ</label>
+                <input type="text" id="regVillage" placeholder="গ্রামের নাম">
+                <label>ওয়ার্ডঃ</label>
+                <input type="number" id="regWard" placeholder="ওয়ার্ড নং">
+                <label>থানাঃ</label>
+                <input type="text" id="regPoliceStation" value="রায়পুর" readonly>
+                <label>পেশাঃ</label>
+                <select id="regProfession" onchange="checkProfession('regProfession', 'studentFields')">
+                    <option value="">পেশা নির্বাচন করুন...</option>
+                    <option value="শিক্ষার্থী">শিক্ষার্থী</option>
+                    <option value="শিক্ষক">শিক্ষক</option>
+                    <option value="কৃষক">কৃষক</option>
+                    <option value="ব্যবসায়ী">ব্যবসায়ী</option>
+                    <option value="সরকারি চাকরিজীবী">সরকারি চাকরিজীবী</option>
+                    <option value="প্রবাসী">প্রবাসী</option>
+                    <option value="অন্যান্য">অন্যান্য</option>
+                </select>
+                <div id="studentFields">
+                    <label>শ্রেণিঃ</label>
+                    <input type="text" id="regClass" placeholder="উদাঃ একাদশ শ্রেণি">
+                    <label>প্রতিষ্ঠানের নামঃ</label>
+                    <input type="text" id="regInstitute" placeholder="উদাঃ রায়পুর সরকারি কলেজ">
+                </div>
+                <label style="display:block; margin-bottom: 8px; font-weight: bold; color: #444;">পরিচয়পত্রঃ</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="idType" value="ভোটার আইডি" checked onchange="updateIdPlaceholder('idType', 'regGovtId')"> ভোটার আইডি</label>
+                    <label><input type="radio" name="idType" value="জন্ম নিবন্ধন" onchange="updateIdPlaceholder('idType', 'regGovtId')"> জন্ম নিবন্ধন</label>
+                </div>
+                <input type="number" id="regGovtId" placeholder="ভোটার আইডি নাম্বার দিন">
+                <label>রক্তের গ্রুপঃ</label>
+                <select id="regGroup">
+                    <option value="">নির্বাচন করুন...</option>
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>সর্বশেষ রক্তদানের তারিখ (ঐচ্ছিক):</label>
+                <input type="date" id="regLastDonationDate">
+                <label>লগিন মোবাইল নাম্বারঃ</label>
+                <input type="tel" id="regPhone" placeholder="016XXXXXXXX">
+                <label>লগিন পিন (ডিফল্ট: 1234)ঃ</label>
+                <input type="password" id="regPassword" value="1234" placeholder="পিন দিন">
+                <button class="submit-btn" style="background:#00796b; margin-top: 10px;" onclick="submitRegistration()">নিবন্ধন সম্পন্ন করুন</button>
+            </div>
+        </div>
+
+        <!-- ৪. মূল হোম স্ক্রিন -->
+        <div id="homeScreen" class="screen">
+            
+            <div id="homeProfileSection" style="display: none;">
+                <div class="home-profile-card" onclick="showScreen('profileScreen')">
+                    <img src="" id="hpImg" alt="Profile">
+                    <div class="details">
+                        <h3 id="hpName">নাম</h3>
+                        <p id="hpId">সদস্য নং:</p>
+                    </div>
+                    <div class="arrow">➔ <span id="hpNotiBadge" class="badge-noti" style="display:none;">!</span></div>
+                </div>
+            </div>
+
+            <!-- অ্যাডমিন প্যানেল বাটন -->
+            <div class="form-box" id="adminPanelBtn" style="text-align: center; cursor: pointer; padding: 15px; margin-top: 20px; border-left: 5px solid #d81b60; display: none;" onclick="showScreen('adminScreen')">
+                <h3 style="margin: 0; color: #d81b60; font-size: 18px;">⚙️ অ্যাডমিন প্যানেল</h3>
+                <p style="margin: 5px 0 0; font-size: 14px; color: #666;">রক্তদাতা যুক্ত, সদস্য সার্চ/এডিট/রিমুভ ও কন্ট্রোল</p>
+            </div>
+
+            <!-- সাংগঠনিক নিউজ (লাইভ) -->
+            <div class="section-heading">সাংগঠনিক নিউজ</div>
+            <div class="news-box">
+                <div class="marquee-container">
+                    <div class="marquee-content" id="liveNewsText">আপডেটের জন্য অপেক্ষা করুন...</div>
+                </div>
+            </div>
+
+            <!-- সাম্প্রতিক কার্যক্রম -->
+            <div class="section-heading">সাম্প্রতিক কার্যক্রম</div>
+            <div class="slider-wrapper">
+                <div class="slider" id="imageSlider">
+                    <img src="https://via.placeholder.com/400x200/d32f2f/ffffff?text=Loading+Photos..." class="slide-img">
+                </div>
+            </div>
+
+            <div class="form-box" style="text-align: center; cursor: pointer; padding: 15px; margin-top: 20px; border-left: 5px solid #00796b;" onclick="showScreen('upazilaCommitteeScreen')">
+                <h3 style="margin: 0; color: #00796b; font-size: 18px;">🏛️ উপজেলা কমিটি</h3>
+                <p style="margin: 5px 0 0; font-size: 14px; color: #666;">উপজেলা ও ইউনিয়ন কমিটি দেখতে ক্লিক করুন</p>
+            </div>
+
+            <div class="section-heading">ক্যাটাগরি</div>
+            <div class="category-grid">
+                <div class="cat-card cat-red" onclick="showScreen('bloodScreen')"><span style="font-size:20px; margin-bottom:5px;">🩸</span> রক্তদাতা খুঁজুন</div>
+                <div class="cat-card cat-teal" onclick="showScreen('activitiesScreen')"><span style="font-size:20px; margin-bottom:5px;">📸</span> আমাদের কার্যক্রম</div>
+                <div class="cat-card cat-blue" onclick="showScreen('eduScreen')"><span style="font-size:20px; margin-bottom:5px;">📚</span> শিক্ষা সহায়তা</div>
+                <div class="cat-card cat-green" onclick="showScreen('envScreen')"><span style="font-size:20px; margin-bottom:5px;">🌱</span> পরিবেশ ও বৃক্ষরোপণ</div>
+                <div class="cat-card cat-orange" onclick="showScreen('fundScreen')"><span style="font-size:20px; margin-bottom:5px;">🤲</span> ত্রাণ তহবিল</div>
+                <div class="cat-card cat-purple" onclick="showScreen('awardScreen')"><span style="font-size:20px; margin-bottom:5px;">🏆</span> সম্মাননা</div>
+                <div class="cat-card cat-pink" onclick="showScreen('medicalScreen')"><span style="font-size:20px; margin-bottom:5px;">🩺</span> ফ্রি মেডিকেল</div>
+                <div class="cat-card cat-indigo" onclick="showScreen('itScreen')"><span style="font-size:20px; margin-bottom:5px;">💻</span> আইটি ও দক্ষতা</div>
+                <div class="cat-card cat-cyan" onclick="showScreen('donationScreen')"><span style="font-size:20px; margin-bottom:5px;">🤝</span> আর্থিক সহায়তা</div>
+                <div class="cat-card cat-brown" onclick="showScreen('hotlineScreen')"><span style="font-size:20px; margin-bottom:5px;">📞</span> জরুরি হটলাইন</div>
+            </div>
+
+            <!-- স্ক্রিনশট অনুযায়ী মার্ক করা একদম নিচে ব্যাকগ্রাউন্ড সহ বসানো টাইম-বেসড গ্রিটিংস স্লাইডার -->
+            <div class="greeting-slider-box">
+                <div class="greeting-marquee">
+                    <div class="greeting-marquee-content" id="timeGreetingText">লোড হচ্ছে...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- অ্যাডমিন প্যানেল স্ক্রিন -->
+        <div id="adminScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#d81b60; border-bottom: 2px solid #d81b60; padding-bottom: 10px; margin-bottom: 20px;">অ্যাডমিন কন্ট্রোল প্যানেল</h2>
+            
+            <div class="accordion-header" onclick="toggleAccordion('acc1')"><span>১. 🩸 নতুন রক্তদাতা যুক্ত করুন</span> <span>▼</span></div>
+            <div id="acc1" class="accordion-body">
+                <label>রক্তদাতার নাম:</label><input type="text" id="adminAddDonorName" placeholder="নাম দিন">
+                <label>রক্তের গ্রুপ:</label>
+                <select id="adminAddDonorGroup">
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>মোবাইল নাম্বার:</label><input type="tel" id="adminAddDonorPhone" placeholder="01XXXXXXXXX">
+                <label>ইউনিয়ন:</label>
+                <select id="adminAddDonorUnion">
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
+                    <option value="৭নং বামনী">৭নং বামনী</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর</option>
+                </select>
+                <label>গ্রাম:</label><input type="text" id="adminAddDonorVillage" placeholder="গ্রামের নাম">
+                <label>সর্বশেষ রক্তদানের তারিখ:</label><input type="date" id="adminAddDonorDate">
+                <button class="submit-btn" style="background:#d32f2f; margin-top:10px;" onclick="adminAddNewDonor()">রক্তদাতা সেভ করুন</button>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc2')"><span>২. 💰 আর্থিক অনুদান তালিকা ও হিসাব</span> <span>▼</span></div>
+            <div id="acc2" class="accordion-body">
+                <div id="adminDonationSummary" style="font-weight: bold; margin-bottom: 10px; color: #333;">মোট সংগ্রহ: ৳0</div>
+                <div style="overflow-x: auto;">
+                    <table class="donation-table">
+                        <thead>
+                            <tr><th>তারিখ</th><th>প্রেরক নাম্বার</th><th>টাকা</th><th>TrxID</th></tr>
+                        </thead>
+                        <tbody id="adminDonationTableBody"><tr><td colspan="4">লোড হচ্ছে...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc3')"><span>৩. 🔍 সদস্য সার্চ, এডিট ও রিমুভ</span> <span>▼</span></div>
+            <div id="acc3" class="accordion-body">
+                <div id="adminTotalMembersCount" style="background: #e0f2f1; color: #00796b; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; text-align: center;">মোট সদস্য ফরম পূরণ করেছেন: গণনা হচ্ছে...</div>
+                <label>নাম, নাম্বার বা সদস্য নং (যেমন: MKF-0001):</label>
+                <input type="text" id="adminSearchQuery" placeholder="খুঁজতে এখানে লিখুন...">
+                <button class="submit-btn" style="background:#1976d2;" onclick="searchAdminMember()">সার্চ করুন</button>
+                <div id="adminMemberResult" style="margin-top: 15px;"></div>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc4')"><span>৪. 🏛️ কমিটি ম্যানেজমেন্ট (পিন: 1234)</span> <span>▼</span></div>
+            <div id="acc4" class="accordion-body">
+                <label>কমিটি সিলেক্ট করুন:</label>
+                <select id="adminCommitteeType" onchange="loadCommitteeDataForAdmin()">
+                    <option value="upazila">উপজেলা কমিটি</option>
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল ইউনিয়ন</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী ইউনিয়ন</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা ইউনিয়ন</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর ইউনিয়ন</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা ইউনিয়ন</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া ইউনিয়ন</option>
+                    <option value="৭নং বামনী">৭নং বামনী ইউনিয়ন</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী ইউনিয়ন</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল ইউনিয়ন</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর ইউনিয়ন</option>
+                </select>
+                <label>কমিটির বিবরণ ও সদস্য তালিকা:</label>
+                <textarea id="adminCommitteeDesc" rows="6" placeholder="সভাপতি - ...&#10;সেক্রেটারি - ...&#10;১ - ..."></textarea>
+                <label>অ্যাডমিন পিন (ডিফল্ট: 1234):</label>
+                <input type="password" id="adminPinInput" placeholder="পিন দিন">
+                <button class="submit-btn" style="background:#00796b;" onclick="saveCommitteeData()">কমিটি আপডেট করুন</button>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc5')"><span>৫. 📸 কার্যক্রম ও ক্যাটাগরিতে পোস্ট</span> <span>▼</span></div>
+            <div id="acc5" class="accordion-body">
+                <label>ক্যাটাগরি নির্বাচন করুন:</label>
+                <select id="adminCatSelect">
+                    <option value="activitiesScreen">আমাদের কার্যক্রম</option>
+                    <option value="eduScreen">শিক্ষা সহায়তা</option>
+                    <option value="envScreen">পরিবেশ ও বৃক্ষরোপণ</option>
+                    <option value="fundScreen">ত্রাণ তহবিল</option>
+                    <option value="awardScreen">সম্মাননা</option>
+                    <option value="medicalScreen">ফ্রি মেডিকেল</option>
+                    <option value="itScreen">আইটি ও দক্ষতা</option>
+                </select>
+                <label>পোস্টের শিরোনাম (Title):</label>
+                <input type="text" id="adminCatTitle" placeholder="শিরোনাম...">
+                <label>পোস্টের ছবি (ঐচ্ছিক):</label>
+                <input type="file" accept="image/*" id="adminCatImageInput" onchange="previewAdminCatImage(event)">
+                <img id="adminCatImgPreview" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; display: none;">
+                <label>বিস্তারিত বিবরণ:</label>
+                <textarea id="adminCatDesc" rows="4" placeholder="বিস্তারিত লিখুন..."></textarea>
+                <button class="submit-btn" style="background:#388e3c;" onclick="submitCategoryPost()">পোস্ট পাবলিশ করুন</button>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc6')"><span>৬. 📢 সাংগঠনিক নিউজ ম্যানেজমেন্ট</span> <span>▼</span></div>
+            <div id="acc6" class="accordion-body">
+                <textarea id="adminNewsInput" rows="3" placeholder="নতুন নিউজ লিখুন..."></textarea>
+                <button class="submit-btn" style="background:#f57c00; margin-top: 10px;" onclick="updateAdminNews()">নিউজ পাবলিশ করুন</button>
+                <button class="submit-btn btn-outline" style="color:#d32f2f; border-color:#d32f2f; margin-top:10px;" onclick="deleteAdminNews()">নিউজ ডিলেট করুন</button>
+            </div>
+        </div>
+
+        <!-- অ্যাডমিন মেম্বার এডিট ও রিমুভ ফর্ম -->
+        <div id="adminEditMemberScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('adminScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom: 20px;">সদস্যের তথ্য এডিট ও রিমুভ</h2>
+            <div class="form-box">
+                <div class="profile-upload-wrapper">
+                    <img src="" id="adminEditMemberPreview" class="profile-img-preview">
+                    <input type="file" accept="image/*" onchange="previewImage(event, 'adminEditMemberPreview', false)">
+                </div>
+                <input type="hidden" id="adminEditMemberKey">
+                <label>সদস্য নং (যেমন: MKF-0005):</label><input type="text" id="adminEditMemberIdNum">
+                <label>নামঃ</label><input type="text" id="adminEditName">
+                <label>সংগঠনে পদবীঃ</label><input type="text" id="adminEditDesignation">
+                <label>পিতার নামঃ</label><input type="text" id="adminEditFName">
+                <label>গ্রামঃ</label><input type="text" id="adminEditVillage">
+                <label>ইউনিয়নঃ</label>
+                <select id="adminEditUnion">
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
+                    <option value="৭নং বামনী">৭নং বামনী</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর</option>
+                </select>
+                <label>রক্তের গ্রুপঃ</label>
+                <select id="adminEditGroup">
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>সর্বশেষ রক্তদানের তারিখ:</label><input type="date" id="adminEditLastDonationDate">
+                <label>মোবাইল নাম্বারঃ</label><input type="tel" id="adminEditPhone">
+                <button class="submit-btn" style="background:#1976d2; margin-top: 10px;" onclick="saveAdminMemberEdit()">তথ্য আপডেট করুন</button>
+                
+                <button class="btn-delete-member" onclick="deleteAdminMember()">✖ এই সদস্যকে সিস্টেম ও ডাটাবেস থেকে পার্মানেন্ট রিমুভ করুন</button>
+            </div>
+        </div>
+
+        <!-- ডাইনামিক ক্যাটাগরি স্ক্রিনগুলো -->
+        <div id="activitiesScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#00796b;">আমাদের কার্যক্রম</h2><div id="catData_activitiesScreen">লোড হচ্ছে...</div></div>
+        <div id="eduScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#1976d2;">শিক্ষা সহায়তা</h2><div id="catData_eduScreen">লোড হচ্ছে...</div></div>
+        <div id="envScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#388e3c;">পরিবেশ ও বৃক্ষরোপণ</h2><div id="catData_envScreen">লোড হচ্ছে...</div></div>
+        <div id="fundScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#f57c00;">ত্রাণ তহবিল</h2><div id="catData_fundScreen">লোড হচ্ছে...</div></div>
+        <div id="awardScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#8e24aa;">সম্মাননা</h2><div id="catData_awardScreen">লোড হচ্ছে...</div></div>
+        <div id="medicalScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#d81b60;">মেডিকেল সেবা</h2><div id="catData_medicalScreen">লোড হচ্ছে...</div></div>
+        <div id="itScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#3949ab;">আইটি ও দক্ষতা উন্নয়ন</h2><div id="catData_itScreen">লোড হচ্ছে...</div></div>
+
+        <!-- উপজেলা কমিটি স্ক্রিন -->
+        <div id="upazilaCommitteeScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
+            <h2 class="text-center" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">উপজেলা কমিটি</h2>
+            <div class="form-box text-center" style="margin-bottom: 15px;">
+                <button class="submit-btn" style="background: #1976d2;" onclick="showScreen('unionCommitteeScreen')">🗺️ ইউনিয়ন কমিটি সমূহ দেখুন</button>
+            </div>
+            <div id="upazilaCommitteeContent">লোড হচ্ছে...</div>
+        </div>
+
+        <!-- ইউনিয়ন কমিটি লিস্ট স্ক্রিন -->
+        <div id="unionCommitteeScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('upazilaCommitteeScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; margin-bottom: 20px;">ইউনিয়ন কমিটি সমূহ</h2>
+            <ul class="union-list" id="unionListContainer">
+                <li onclick="openUnionDetail('১নং উত্তর চর আবাবিল')">১নং উত্তর চর আবাবিল ইউনিয়ন</li>
+                <li onclick="openUnionDetail('২নং উত্তর চর বংশী')">২নং উত্তর চর বংশী ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৩নং চরমোহনা')">৩নং চরমোহনা ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৪নং সোনাপুর')">৪নং সোনাপুর ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৫নং চরপাতা')">৫নং চরপাতা ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৬নং কেরোয়া')">৬নং কেরোয়া ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৭নং বামনী')">৭নং বামনী ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৮নং দক্ষিন চর বংশী')">৮নং দক্ষিন চর বংশী ইউনিয়ন</li>
+                <li onclick="openUnionDetail('৯নং দক্ষিন চর আবাবিল')">৯নং দক্ষিন চর আবাবিল ইউনিয়ন</li>
+                <li onclick="openUnionDetail('১০নং রায়পুর')">১০নং রায়পুর ইউনিয়ন</li>
+            </ul>
+        </div>
+
+        <!-- সুনির্দিষ্ট ইউনিয়ন ডিটেইল স্ক্রিন -->
+        <div id="unionDetailScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('unionCommitteeScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" id="unionDetailTitle" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">ইউনিয়ন কমিটি</h2>
+            <div id="unionDetailContent">লোড হচ্ছে...</div>
+        </div>
+
+        <!-- ডিজিটাল আইডি কার্ড স্ক্রিন (আলাদা পেজ, প্রিন্ট/পিডিএফ/স্ক্রিনশট অপশনসহ) -->
+        <div id="digitalIdScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('profileScreen')">⬅ প্রোফাইলে ফিরে যান</button>
+            <h2 class="text-center" style="color:#00796b;">আমার ডিজিটাল আইডি কার্ড</h2>
+            <div class="id-card-container" id="printableIdCard">
+                <img src="" id="fullIdImg" alt="Photo">
+                <h2 id="fullIdName">নাম</h2>
+                <p id="fullIdDesig">পদবী</p>
+                <p id="fullIdUnion">ইউনিয়ন</p>
+                <p id="fullIdPhone">মোবাইল</p>
+                <div class="id-card-badge" id="fullIdNo">MKF-0001</div>
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="submit-btn" style="background:#00796b; max-width: 320px;" onclick="window.print()">📥 আইডি কার্ড ডাউনলোড / পিডিএফ করুন</button>
+            </div>
+        </div>
+
+        <!-- আর্থিক সহায়তা -->
+        <div id="donationScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
+            <h2 class="text-center" style="color:#00acc1; border-bottom: 2px solid #00acc1; padding-bottom: 10px; margin-bottom: 20px;">আর্থিক সহায়তা</h2>
+            <div class="form-box" style="text-align: center;">
+                <p style="font-size: 15px; color: #555; line-height: 1.5; margin-bottom: 20px;">
+                    "মানব কল্যাণ ফোরাম"-এর সকল স্বেচ্ছাসেবী কার্যক্রম আপনাদের অনুদানেই পরিচালিত হয়। আমাদের এই মহৎ উদ্যোগে আপনিও আর্থিকভাবে পাশে দাঁড়াতে পারেন।
+                </p>
+                <div style="background: #fff3e0; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h3 style="margin: 0 0 10px 0; color: #e65100;">বিকাশ (পার্সোনাল)</h3>
+                    <p style="font-size: 22px; font-weight: bold; margin: 0; color: #333; letter-spacing: 2px;">01644234178</p>
+                </div>
+                <div style="background: #ffebee; border: 1px solid #ffcdd2; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h3 style="margin: 0 0 10px 0; color: #d32f2f;">নগদ (পার্সোনাল)</h3>
+                    <p style="font-size: 22px; font-weight: bold; margin: 0; color: #333; letter-spacing: 2px;">01644234178</p>
+                </div>
+            </div>
+            <div class="form-box">
+                <h3 style="margin-top: 0; color: #00acc1; text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">অনুদান নিশ্চিত করুন</h3>
+                <label>প্রেরকের নাম্বার (যেই নাম্বার থেকে পাঠিয়েছেন)ঃ</label>
+                <input type="tel" id="donSenderNum" placeholder="01XXXXXXXXX">
+                <label>টাকার পরিমাণঃ</label>
+                <input type="number" id="donAmount" placeholder="৳">
+                <label>TrxID (ট্রানজেকশন আইডি)ঃ</label>
+                <input type="text" id="donTrxId" placeholder="উদাঃ 8N7X2C9P">
+                <button class="submit-btn" style="background:#00acc1; margin-top: 10px;" onclick="submitDonationTrx()">সাবমিট করুন</button>
+            </div>
+        </div>
+
+        <!-- রক্তদাতা খুঁজুন স্ক্রিন -->
+        <div id="bloodScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
+            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom:20px;">রক্তদাতা খুঁজুন ও লিডারবোর্ড</h2>
+            
+            <div class="form-box" style="border-left: 5px solid #ff9800; background: #fff8e1;">
+                <h3 style="margin-top: 0; color: #e65100; font-size: 16px;">🏆 শীর্ষ রক্তদাতা ও স্বেচ্ছাসেবক লিডারবোর্ড</h3>
+                <div id="topDonorsLeaderboard">লোড হচ্ছে...</div>
+            </div>
+
+            <div class="form-box">
+                <label>রক্তের গ্রুপ নির্বাচন করুন:</label>
+                <select id="filterBloodGroup">
+                    <option value="">সকল গ্রুপ</option>
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>ইউনিয়ন ফিল্টার করুন:</label>
+                <select id="filterUnion">
+                    <option value="">সকল ইউনিয়ন</option>
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
+                    <option value="৭নং বামনী">৭নং বামনী</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর</option>
+                </select>
+                <button class="submit-btn" onclick="searchDonors()">খুঁজুন</button>
+                <button class="submit-btn" style="background:#1976d2; margin-top:15px;" onclick="showScreen('bloodRequestScreen')">📢 জরুরি রক্তের জন্য রিকুয়েষ্ট দিন</button>
+            </div>
+            <div id="donorSearchResults"></div>
+        </div>
+
+        <div id="bloodRequestScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('bloodScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom:20px;">জরুরি রক্তের রিকুয়েষ্ট ফরম</h2>
+            <div class="form-box">
+                <label>প্রয়োজনীয় রক্তের গ্রুপঃ</label>
+                <select id="reqGroup">
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>রোগীর সমস্যা/কারণঃ</label>
+                <input type="text" id="reqProblem" placeholder="উদাঃ সিজার / দুর্ঘটনা">
+                <label>হাসপাতালের নামঃ</label>
+                <input type="text" id="reqHospital" placeholder="উদাঃ রায়পুর উপজেলা স্বাস্থ্য কমপ্লেক্স">
+                <label>হাসপাতাল/রক্তদানের ঠিকানাঃ</label>
+                <input type="text" id="reqAddress" placeholder="উদাঃ রায়পুর বাজার রোড">
+                <label>যোগাযোগের মোবাইল নাম্বারঃ</label>
+                <input type="tel" id="reqPhone" placeholder="017XXXXXXXX">
+                <button class="submit-btn" style="margin-top:10px;" onclick="submitBloodRequest()">রিকুয়েষ্ট পোস্ট করুন</button>
+            </div>
+        </div>
+
+        <!-- প্রোফাইল স্ক্রিন -->
+        <div id="profileScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
+            <h2 class="text-center" style="color:#00796b;">আমার প্রোফাইল</h2>
+            
+            <!-- রক্তদান প্রশংসাপত্র / সার্টিফিকেট জেনারেটর -->
+            <div class="form-box" style="border-left: 5px solid #d32f2f;">
+                <h3 style="margin-top: 0; color: #d32f2f;">📜 রক্তদান প্রশংসাপত্র (Certificate)</h3>
+                <label>রক্তদানের তারিখ দিন:</label>
+                <input type="date" id="certDonationDate">
+                <div style="display: flex; gap: 10px;">
+                    <button class="submit-btn" style="background: #d32f2f; flex: 1;" onclick="generateCertificate()">তৈরি করুন</button>
+                    <button class="submit-btn" style="background: #607d8b; flex: 1;" onclick="hideCertificate()">হাইড/মুছে ফেলুন</button>
+                </div>
+                <div id="certificateContainer"></div>
+            </div>
+
+            <div class="profile-card" id="userProfileCard"></div>
+
+            <!-- প্রোফাইলের একদম শেষে যুক্ত করা আমার আইডি কার্ড অপশন -->
+            <div class="form-box" style="text-align: center; cursor: pointer; border-left: 5px solid #00796b; background: #e0f2f1; margin-top: 15px;" onclick="showScreen('digitalIdScreen')">
+                <h3 style="margin: 0; color: #00796b; font-size: 18px;">🪪 আমার আইডি কার্ড</h3>
+                <p style="margin: 5px 0 0; font-size: 13px; color: #555;">ক্লিক করে ডিজিটাল আইডি কার্ড দেখুন ও স্ক্রিনশট নিন</p>
+            </div>
+
+            <div id="dynamicNotiArea"></div>
+            <div class="action-btns">
+                <button class="btn-edit" onclick="openEditProfile()">এডিট করুন</button>
+                <button class="btn-logout" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+
+        <div id="editProfileScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('profileScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; margin-bottom: 20px;">প্রোফাইল এডিট করুন</h2>
+            <div class="form-box">
+                <div class="profile-upload-wrapper">
+                    <img src="" id="editProfilePreview" class="profile-img-preview">
+                    <input type="file" accept="image/*" onchange="previewImage(event, 'editProfilePreview', false)">
+                </div>
+                <label>নামঃ</label><input type="text" id="editName">
+                <label>সংগঠনে পদবীঃ</label><input type="text" id="editDesignation" readonly>
+                <label>পিতার নামঃ</label><input type="text" id="editFName">
+                <label>গ্রামঃ</label><input type="text" id="editVillage">
+                <label>ইউনিয়নঃ</label>
+                <select id="editUnion">
+                    <option value="১নং উত্তর চর আবাবিল">১নং উত্তর চর আবাবিল</option>
+                    <option value="২নং উত্তর চর বংশী">২নং উত্তর চর বংশী</option>
+                    <option value="৩নং চরমোহনা">৩নং চরমোহনা</option>
+                    <option value="৪নং সোনাপুর">৪নং সোনাপুর</option>
+                    <option value="৫নং চরপাতা">৫নং চরপাতা</option>
+                    <option value="৬নং কেরোয়া">৬নং কেরোয়া</option>
+                    <option value="৭নং বামনী">৭নং বামনী</option>
+                    <option value="৮নং দক্ষিন চর বংশী">৮নং দক্ষিন চর বংশী</option>
+                    <option value="৯নং দক্ষিন চর আবাবিল">৯নং দক্ষিন চর আবাবিল</option>
+                    <option value="১০নং রায়পুর">১০নং রায়পুর</option>
+                </select>
+                <label>রক্তের গ্রুপঃ</label>
+                <select id="editGroup">
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                </select>
+                <label>সর্বশেষ রক্তদানের তারিখ:</label><input type="date" id="editLastDonationDate">
+                <label>মোবাইল নাম্বারঃ</label><input type="tel" id="editPhone">
+                <button class="submit-btn" style="background:#1976d2; margin-top: 10px;" onclick="saveEditedProfile()">সেভ করুন</button>
+            </div>
+        </div>
+
+        <div id="hotlineScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
+            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom: 20px;">জরুরি সেবার হটলাইন</h2>
+            <div class="form-box" style="border-left: 5px solid #d32f2f;"><h3 style="margin-top: 0; color: #d32f2f;">জাতীয় জরুরি সেবা</h3><p style="margin: 8px 0;"><strong>টোল ফ্রি:</strong> <a href="tel:999" class="hotline-link">999</a></p></div>
+            <div class="form-box" style="border-left: 5px solid #1976d2;"><h3 style="margin-top: 0; color: #1976d2;">রায়পুর মডেল থানা</h3><p style="margin: 8px 0;"><strong>ওসি (OC):</strong> <a href="tel:01320116035" class="hotline-link">01320-116035</a></p></div>
+            <div class="form-box" style="border-left: 5px solid #f57c00;"><h3 style="margin-top: 0; color: #f57c00;">রায়পুর ফায়ার সার্ভিস</h3><p style="margin: 8px 0;"><strong>স্টেশন অফিসার:</strong> <a href="tel:01739063380" class="hotline-link">01739-063380</a></p></div>
+            <div class="form-box" style="border-left: 5px solid #388e3c;"><h3 style="margin-top: 0; color: #388e3c;">রায়পুর উপজেলা স্বাস্থ্য কমপ্লেক্স</h3><p style="margin: 8px 0;"><strong>জরুরি বিভাগ:</strong> <a href="tel:01730324785" class="hotline-link">01730-324785</a></p></div>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK (Version 8) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCsNEzpIAZAP2vz5_PAXxj12iEQc2-3m34",
+            authDomain: "manob-kallan-forum.firebaseapp.com",
+            databaseURL: "https://manob-kallan-forum-default-rtdb.firebaseio.com",
+            projectId: "manob-kallan-forum",
+            storageBucket: "manob-kallan-forum.firebasestorage.app"
+        };
+
+        const ADMIN_PHONE = "01644234178"; 
+        const DEFAULT_PIN = "1234";
+        let currentBase64Image = "https://via.placeholder.com/150?text=No+Photo"; 
+        let adminSliderBase64 = "";
+        let adminCatImageBase64 = "";
+        let adminEditingUserBase64 = "";
+        let globalUserData = null; 
+        let globalRequests = []; 
+        let globalCategoryPosts = {};
+        let globalCommittees = {};
+        let db;
+
+        document.addEventListener("DOMContentLoaded", function() { setTimeout(initApp, 500); });
+
+        function initApp() {
+            if (typeof firebase === 'undefined') {
+                document.getElementById('splashScreen').innerHTML = '<div style="text-align:center; margin-top:80px;"><h3 style="color:red;">ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h3></div>';
+                return;
+            }
+            try {
+                if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+                db = firebase.database();
+
+                let loggedInId = localStorage.getItem("loggedInUserId");
+                if(loggedInId) {
+                    db.ref('users/' + loggedInId).once('value').then(snap => {
+                        if(snap.exists()) {
+                            globalUserData = snap.val();
+                            setupRealtimeListeners();
+                            showScreen("homeScreen");
+                        } else {
+                            localStorage.removeItem("loggedInUserId");
+                            showScreen("authScreen");
+                        }
+                    }).catch(e => { showScreen("authScreen"); });
+                } else { showScreen("authScreen"); }
+            } catch(e) { showScreen("authScreen"); }
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            if(screenId === 'profileScreen') { loadFullProfileData(); }
+            if(screenId === 'digitalIdScreen') { loadDigitalIdCard(); }
+            if(screenId === 'adminScreen') { 
+                loadAdminDonations(); 
+                loadAdminTotalMembersCount();
+            }
+            if(screenId === 'bloodScreen') {
+                loadTopDonorsLeaderboard();
+            }
+            if(screenId === 'upazilaCommitteeScreen') { renderCommitteeView('upazila'); }
+            if(['activitiesScreen', 'eduScreen', 'envScreen', 'fundScreen', 'awardScreen', 'medicalScreen', 'itScreen'].includes(screenId)) {
+                renderCategoryData(screenId);
+            }
+            if(screenId !== 'bloodScreen' || !document.getElementById("donorSearchResults").innerHTML) { window.scrollTo(0,0); }
+        }
+
+        function showCustomModal(title, text, isConfirm = false, onConfirmCallback = null) {
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalText").innerText = text;
+            let btnGroup = document.getElementById("modalBtnGroup");
+            
+            if(isConfirm) {
+                btnGroup.innerHTML = `
+                    <button class="modal-btn modal-btn-cancel" onclick="closeModal()">বাতিল</button>
+                    <button class="modal-btn" id="modalConfirmBtn">নিশ্চিত করুন</button>
+                `;
+                document.getElementById("modalConfirmBtn").onclick = function() {
+                    closeModal();
+                    if(onConfirmCallback) onConfirmCallback();
+                };
+            } else {
+                btnGroup.innerHTML = `<button class="modal-btn" onclick="closeModal()">ঠিক আছে</button>`;
+            }
+            document.getElementById("customModal").style.display = "flex";
+        }
+        function closeModal() { document.getElementById("customModal").style.display = "none"; }
+
+        function toggleAccordion(id) {
+            let el = document.getElementById(id);
+            if(el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                document.querySelectorAll('.accordion-body').forEach(b => b.style.display = "none");
+                el.style.display = "block";
+            }
+        }
+
+        let lastSeenReqId = null;
+        function triggerSirenAlert(req) {
+            if(lastSeenReqId === req.id) return;
+            lastSeenReqId = req.id;
+            document.getElementById("sirenText").innerHTML = `গ্রুপ: <span style="color:#d32f2f;">${req.group}</span><br>হাসপাতাল: ${req.hospital}<br>সমস্যা: ${req.problem}`;
+            document.getElementById("sirenCallBtn").onclick = function() {
+                window.location.href = "tel:" + req.phone;
+            };
+            document.getElementById("sirenModal").style.display = "flex";
+        }
+        function closeSirenModal() { document.getElementById("sirenModal").style.display = "none"; }
+
+        function updateIdPlaceholder(radioName, inputId) {
+            let idType = document.querySelector(`input[name="${radioName}"]:checked`).value;
+            document.getElementById(inputId).placeholder = (idType === "ভোটার আইডি") ? "ভোটার আইডি নাম্বার দিন" : "জন্ম নিবন্ধন নাম্বার দিন (১৭ ডিজিট)";
+        }
+
+        function previewImage(event, imgElementId, isRegistration = true) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = new Image(); img.onload = function() {
+                        let canvas = document.createElement("canvas"); let MAX_WIDTH = 400; let MAX_HEIGHT = 400;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                        else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
+                        canvas.width = width; canvas.height = height;
+                        let ctx = canvas.getContext("2d"); ctx.drawImage(img, 0, 0, width, height);
+                        let base64 = canvas.toDataURL("image/jpeg", 0.6);
+                        document.getElementById(imgElementId).src = base64;
+                        if(isRegistration) { currentBase64Image = base64; } 
+                        else { adminEditingUserBase64 = base64; currentBase64Image = base64; }
+                    }; img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function checkProfession(selectId, fieldsId) {
+            let prof = document.getElementById(selectId).value;
+            document.getElementById(fieldsId).style.display = (prof === "শিক্ষার্থী") ? "block" : "none";
+        }
+
+        function submitRegistration() {
+            let name = document.getElementById("regName").value;
+            let phone = document.getElementById("regPhone").value;
+            let password = document.getElementById("regPassword").value || DEFAULT_PIN;
+            let govtId = document.getElementById("regGovtId").value;
+            let lastDonationDate = document.getElementById("regLastDonationDate").value;
+            
+            if (name !== "" && phone !== "" && govtId !== "") {
+                showCustomModal("অপেক্ষা করুন", "রেজিস্ট্রেশন হচ্ছে...");
+                
+                db.ref('users').once('value').then(snapshot => {
+                    let existingIds = [];
+                    if(snapshot.exists()) {
+                        let users = snapshot.val();
+                        Object.keys(users).forEach(k => {
+                            let uId = users[k].id || "";
+                            if(uId.startsWith("MKF-")) {
+                                let num = parseInt(uId.replace("MKF-", ""));
+                                if(!isNaN(num)) existingIds.push(num);
+                            }
+                        });
+                    }
+
+                    let nextNum = 1;
+                    existingIds.sort((a, b) => a - b);
+                    for(let i = 0; i < existingIds.length; i++) {
+                        if(existingIds[i] === nextNum) {
+                            nextNum++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    let memberId = "MKF-" + String(nextNum).padStart(4, '0');
+                    
+                    let userData = {
+                        id: memberId, name: name, designation: "সদস্য", phone: phone, password: password,
+                        fName: document.getElementById("regFName").value, village: document.getElementById("regVillage").value,
+                        union: document.getElementById("regUnion").value, profession: document.getElementById("regProfession").value,
+                        group: document.getElementById("regGroup").value, lastDonationDate: lastDonationDate || "",
+                        idType: document.querySelector('input[name="idType"]:checked').value, 
+                        govtIdNumber: govtId, photo: currentBase64Image, dismissedRequests: ["dummy"] 
+                    };
+
+                    db.ref('users/' + memberId).set(userData).then(() => {
+                        globalUserData = userData; localStorage.setItem("loggedInUserId", memberId);
+                        setupRealtimeListeners(); showCustomModal("অভিনন্দন!", "নিবন্ধন সফল হয়েছে। আপনার সদস্য নং: " + memberId);
+                        setTimeout(() => { showScreen('homeScreen'); }, 2000);
+                    });
+                });
+            } else { showCustomModal("সতর্কতা", "সব জরুরি তথ্য পূরণ করুন।"); }
+        }
+
+        function processLogin() {
+            let phone = document.getElementById("loginPhone").value;
+            let pass = document.getElementById("loginPassword").value || DEFAULT_PIN;
+            showCustomModal("অপেক্ষা করুন", "লগিন যাচাই হচ্ছে...");
+            db.ref('users').orderByChild('phone').equalTo(phone).once('value').then(snapshot => {
+                if(snapshot.exists()) {
+                    let users = snapshot.val(); let key = Object.keys(users)[0];
+                    if(users[key].password === pass) {
+                        globalUserData = users[key]; localStorage.setItem("loggedInUserId", key);
+                        setupRealtimeListeners(); closeModal(); showScreen("homeScreen");
+                    } else { showCustomModal("ভুল তথ্য", "পাসওয়ার্ড সঠিক নয়।"); }
+                } else { showCustomModal("ভুল তথ্য", "এই নাম্বারে একাউন্ট নেই।"); }
+            }).catch(e => { showCustomModal("সতর্কতা", "ইন্টারনেট সমস্যা।"); });
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUserId"); globalUserData = null;
+            document.getElementById("homeProfileSection").style.display = "none";
+            document.getElementById('adminPanelBtn').style.display = "none";
+            showScreen("authScreen");
+        }
+
+        // টাইম-বেসড গ্রিটিংস স্লাইডার লজিক (রাত ১২টার পর শুভ রাত্রি সহ)
+        function setupTimeBasedGreeting() {
+            let hour = new Date().getHours();
+            let greeting = "শুভ রাত্রি";
+            if (hour >= 5 && hour < 12) {
+                greeting = "শুভ সকাল";
+            } else if (hour >= 12 && hour < 15) {
+                greeting = "শুভ দুপুর";
+            } else if (hour >= 15 && hour < 18) {
+                greeting = "শুভ বিকেল";
+            } else if (hour >= 18 && hour < 22) {
+                greeting = "শুভ সন্ধ্যা";
+            }
+            
+            let greetingEl = document.getElementById('timeGreetingText');
+            if(greetingEl) {
+                greetingEl.innerText = `${greeting}! মানব কল্যাণ ফোরামের পক্ষ থেকে আপনাকে জানাই আন্তরিক শুভেচ্ছা।`;
+            }
+        }
+
+        function setupRealtimeListeners() {
+            setupTimeBasedGreeting();
+            setInterval(setupTimeBasedGreeting, 60000); // প্রতি ১ মিনিট পর পর চেক করবে
+
+            db.ref('bloodRequests').on('value', snapshot => {
+                globalRequests = []; 
+                snapshot.forEach(child => { globalRequests.push(child.val()); }); 
+                globalRequests.reverse(); 
+                
+                if(globalRequests.length > 0) {
+                    let latestReq = globalRequests[0];
+                    let dismissed = globalUserData && globalUserData.dismissedRequests ? globalUserData.dismissedRequests : [];
+                    if(!dismissed.includes(latestReq.id)) {
+                        triggerSirenAlert(latestReq);
+                    }
+                }
+
+                setupHomeScreenProfile(); 
+                if(document.getElementById('profileScreen').classList.contains('active')){ loadFullProfileData(); }
+            });
+
+            db.ref('appSettings').on('value', snapshot => {
+                if(snapshot.exists()) {
+                    let data = snapshot.val();
+                    if(data.news) { document.getElementById('liveNewsText').innerText = data.news; document.getElementById('adminNewsInput').value = data.news; }
+                    else { document.getElementById('liveNewsText').innerText = "কোনো নিউজ নেই।"; document.getElementById('adminNewsInput').value = ""; }
+                    
+                    if(data.sliderImages) {
+                        let sliderDiv = document.getElementById('imageSlider'); sliderDiv.innerHTML = "";
+                        Object.keys(data.sliderImages).forEach(key => { sliderDiv.innerHTML += `<img src="${data.sliderImages[key]}" class="slide-img">`; });
+                    }
+                }
+            });
+
+            db.ref('categoryPosts').on('value', snapshot => {
+                globalCategoryPosts = snapshot.exists() ? snapshot.val() : {};
+                document.querySelectorAll('.screen.active').forEach(scr => {
+                    if(['activitiesScreen', 'eduScreen', 'envScreen', 'fundScreen', 'awardScreen', 'medicalScreen', 'itScreen'].includes(scr.id)) {
+                        renderCategoryData(scr.id);
+                    }
+                });
+            });
+
+            db.ref('committees').on('value', snapshot => {
+                globalCommittees = snapshot.exists() ? snapshot.val() : {};
+                if(document.getElementById('upazilaCommitteeScreen').classList.contains('active')) {
+                    renderCommitteeView('upazila');
+                }
+                let activeUnion = document.getElementById("unionDetailTitle").innerText.replace(" ইউনিয়ন কমিটি", "");
+                if(document.getElementById('unionDetailScreen').classList.contains('active') && activeUnion) {
+                    renderCommitteeView(activeUnion);
+                }
+            });
+        }
+
+        function setupHomeScreenProfile() {
+            if(globalUserData) {
+                document.getElementById("hpImg").src = globalUserData.photo; document.getElementById("hpName").innerText = globalUserData.name;
+                document.getElementById("hpId").innerText = "সদস্য নং: " + globalUserData.id; document.getElementById("homeProfileSection").style.display = "block";
+                
+                if(globalUserData.phone === ADMIN_PHONE) { document.getElementById('adminPanelBtn').style.display = "block"; } 
+                else { document.getElementById('adminPanelBtn').style.display = "none"; }
+
+                let dismissed = globalUserData.dismissedRequests || []; let visibleReqs = globalRequests.filter(r => !dismissed.includes(r.id));
+                document.getElementById("hpNotiBadge").style.display = (visibleReqs.length > 0) ? "inline-block" : "none";
+            }
+        }
+
+        // ==========================================
+        // অ্যাডমিন প্যানেল ফাংশন
+        // ==========================================
+        function loadAdminTotalMembersCount() {
+            db.ref('users').once('value').then(snap => {
+                let count = snap.exists() ? Object.keys(snap.val()).length : 0;
+                document.getElementById("adminTotalMembersCount").innerText = `মোট সদস্য ফরম পূরণ করেছেন: ${count} জন`;
+            });
+        }
+
+        function adminAddNewDonor() {
+            let name = document.getElementById("adminAddDonorName").value;
+            let group = document.getElementById("adminAddDonorGroup").value;
+            let phone = document.getElementById("adminAddDonorPhone").value;
+            let union = document.getElementById("adminAddDonorUnion").value;
+            let village = document.getElementById("adminAddDonorVillage").value;
+            let lastDonationDate = document.getElementById("adminAddDonorDate").value;
+
+            if(name !== "" && phone !== "") {
+                showCustomModal("অপেক্ষা করুন", "রক্তদাতা যুক্ত হচ্ছে...");
+                db.ref('users').once('value').then(snapshot => {
+                    let existingIds = [];
+                    if(snapshot.exists()) {
+                        let users = snapshot.val();
+                        Object.keys(users).forEach(k => {
+                            let uId = users[k].id || "";
+                            if(uId.startsWith("MKF-")) {
+                                let num = parseInt(uId.replace("MKF-", ""));
+                                if(!isNaN(num)) existingIds.push(num);
+                            }
+                        });
+                    }
+                    let nextNum = 1;
+                    existingIds.sort((a, b) => a - b);
+                    for(let i = 0; i < existingIds.length; i++) {
+                        if(existingIds[i] === nextNum) { nextNum++; } else { break; }
+                    }
+                    let memberId = "MKF-" + String(nextNum).padStart(4, '0');
+                    let donorData = {
+                        id: memberId, name: name, designation: "রক্তদাতা", phone: phone, password: DEFAULT_PIN,
+                        union: union, village: village, group: group, lastDonationDate: lastDonationDate || "",
+                        photo: "https://via.placeholder.com/150?text=Donor", fName: "-", profession: "স্বেচ্ছাসেবী", govtIdNumber: "-"
+                    };
+                    db.ref('users/' + memberId).set(donorData).then(() => {
+                        showCustomModal("সফল!", "নতুন রক্তদাতা সফলভাবে যুক্ত হয়েছেন। সদস্য আইডি: " + memberId);
+                        document.getElementById("adminAddDonorName").value = "";
+                        document.getElementById("adminAddDonorPhone").value = "";
+                        document.getElementById("adminAddDonorVillage").value = "";
+                        loadAdminTotalMembersCount();
+                    });
+                });
+            } else {
+                showCustomModal("সতর্কতা", "নাম এবং মোবাইল নাম্বার দিন।");
+            }
+        }
+
+        function loadAdminDonations() {
+            let tableBody = document.getElementById("adminDonationTableBody");
+            let summaryDiv = document.getElementById("adminDonationSummary");
+            tableBody.innerHTML = `<tr><td colspan="4">লোড হচ্ছে...</td></tr>`;
+
+            db.ref('donations').once('value').then(snapshot => {
+                if(snapshot.exists()) {
+                    let donations = snapshot.val();
+                    let html = "";
+                    let totalAmount = 0;
+                    Object.keys(donations).forEach(key => {
+                        let d = donations[key];
+                        totalAmount += Number(d.amount || 0);
+                        html += `
+                            <tr>
+                                <td>${d.date || 'তারিখ নেই'}</td>
+                                <td>${d.sender}</td>
+                                <td>৳${d.amount}</td>
+                                <td>${d.trxId}</td>
+                            </tr>
+                        `;
+                    });
+                    tableBody.innerHTML = html;
+                    summaryDiv.innerText = `মোট সংগ্রহ: ৳${totalAmount}`;
+                } else {
+                    tableBody.innerHTML = `<tr><td colspan="4" style="color:#888;">কোনো অনুদান জমা হয়নি।</td></tr>`;
+                    summaryDiv.innerText = "মোট সংগ্রহ: ৳০";
+                }
+            });
+        }
+
+        function searchAdminMember() {
+            let query = document.getElementById("adminSearchQuery").value.trim().toLowerCase();
+            let resDiv = document.getElementById("adminMemberResult");
+            if(query === "") return;
+            resDiv.innerHTML = "খুঁজছি...";
+
+            db.ref('users').once('value').then(snapshot => {
+                if(snapshot.exists()) {
+                    let users = snapshot.val();
+                    let foundKey = null;
+                    let foundUser = null;
+
+                    Object.keys(users).forEach(key => {
+                        let u = users[key];
+                        let uName = (u.name || "").toLowerCase();
+                        let uPhone = (u.phone || "").toLowerCase();
+                        let uId = (u.id || "").toLowerCase();
+
+                        if(uName.includes(query) || uPhone.includes(query) || uId.includes(query)) {
+                            foundKey = key;
+                            foundUser = u;
+                        }
+                    });
+
+                    if(foundUser) {
+                        resDiv.innerHTML = `
+                            <div class="home-profile-card" onclick="openAdminMemberEdit('${foundKey}')" style="border-left-color:#d32f2f;">
+                                <img src="${foundUser.photo}">
+                                <div class="details">
+                                    <h3 style="color:#d32f2f;">${foundUser.name}</h3>
+                                    <p>${foundUser.phone} | ${foundUser.id}</p>
+                                </div>
+                                <div class="arrow" style="color:#d32f2f; font-size:16px;">✏️ এডিট/রিমুভ</div>
+                            </div>`;
+                    } else {
+                        resDiv.innerHTML = "<p style='color:red; text-align:center;'>সদস্য পাওয়া যায়নি!</p>";
+                    }
+                } else {
+                    resDiv.innerHTML = "<p style='color:red; text-align:center;'>কোনো সদস্য নেই!</p>";
+                }
+            });
+        }
+
+        let editingUserKeyAdmin = null;
+        function openAdminMemberEdit(userKey) {
+            db.ref('users/' + userKey).once('value').then(snap => {
+                let u = snap.val();
+                editingUserKeyAdmin = userKey;
+                adminEditingUserBase64 = u.photo;
+                document.getElementById("adminEditMemberPreview").src = adminEditingUserBase64;
+                document.getElementById("adminEditMemberKey").value = userKey;
+                document.getElementById("adminEditMemberIdNum").value = u.id || "";
+                document.getElementById("adminEditName").value = u.name;
+                document.getElementById("adminEditDesignation").value = u.designation;
+                document.getElementById("adminEditFName").value = u.fName || "";
+                document.getElementById("adminEditVillage").value = u.village || "";
+                document.getElementById("adminEditUnion").value = u.union || "১নং উত্তর চর আবাবিল";
+                document.getElementById("adminEditGroup").value = u.group || "A+";
+                document.getElementById("adminEditLastDonationDate").value = u.lastDonationDate || "";
+                document.getElementById("adminEditPhone").value = u.phone;
+                showScreen("adminEditMemberScreen");
+            });
+        }
+
+        function saveAdminMemberEdit() {
+            if(!editingUserKeyAdmin) return;
+            let newDesiredId = document.getElementById("adminEditMemberIdNum").value.trim().toUpperCase();
+            
+            showCustomModal("অপেক্ষা করুন", "আপডেট হচ্ছে...");
+
+            db.ref('users').once('value').then(snapshot => {
+                let users = snapshot.val() || {};
+                let oldUserObj = users[editingUserKeyAdmin];
+                let oldId = oldUserObj.id;
+
+                let updatedData = {
+                    id: newDesiredId,
+                    name: document.getElementById("adminEditName").value,
+                    designation: document.getElementById("adminEditDesignation").value,
+                    fName: document.getElementById("adminEditFName").value,
+                    village: document.getElementById("adminEditVillage").value,
+                    union: document.getElementById("adminEditUnion").value,
+                    group: document.getElementById("adminEditGroup").value,
+                    lastDonationDate: document.getElementById("adminEditLastDonationDate").value,
+                    phone: document.getElementById("adminEditPhone").value,
+                    photo: adminEditingUserBase64,
+                    password: oldUserObj.password || DEFAULT_PIN,
+                    profession: oldUserObj.profession || "স্বেচ্ছাসেবী",
+                    govtIdNumber: oldUserObj.govtIdNumber || "-",
+                    idType: oldUserObj.idType || "ভোটার আইডি",
+                    dismissedRequests: oldUserObj.dismissedRequests || ["dummy"]
+                };
+
+                let conflictingKey = null;
+                Object.keys(users).forEach(k => {
+                    if(users[k].id === newDesiredId && k !== editingUserKeyAdmin) {
+                        conflictingKey = k;
+                    }
+                });
+
+                if(conflictingKey) {
+                    let conflictUserObj = users[conflictingKey];
+                    conflictUserObj.id = oldId;
+
+                    let updates = {};
+                    updates[editingUserKeyAdmin] = null; 
+                    updates[conflictingKey] = null;      
+                    updates[newDesiredId] = updatedData;  
+                    updates[oldId] = conflictUserObj;     
+
+                    db.ref('users').update(updates).then(() => {
+                        showCustomModal("সফল", "সদস্য নং সফলভাবে অদলবদল (Swap) করে আপডেট করা হয়েছে।");
+                        showScreen("adminScreen");
+                    });
+                } else {
+                    let updates = {};
+                    updates[oldId] = null;
+                    updates[newDesiredId] = updatedData;
+
+                    db.ref('users').update(updates).then(() => {
+                        showCustomModal("সফল", "সদস্যের তথ্য ও আইডি আপডেট হয়েছে।");
+                        showScreen("adminScreen");
+                    });
+                }
+            });
+        }
+
+        function deleteAdminMember() {
+            if(!editingUserKeyAdmin) return;
+            showCustomModal("সতর্কতা", "আপনি কি নিশ্চিতভাবে এই সদস্যকে সিস্টেম ও ডাটাবেস থেকে পার্মানেন্ট রিমুভ করতে চান?", true, function() {
+                showCustomModal("অপেক্ষা করুন", "রিমুভ করা হচ্ছে...");
+                db.ref('users/' + editingUserKeyAdmin).remove().then(() => {
+                    showCustomModal("সফল", "সদস্য সফলভাবে ডাটাবেস থেকে মুছে ফেলা হয়েছে।");
+                    showScreen("adminScreen");
+                });
+            });
+        }
+
+        function loadCommitteeDataForAdmin() {
+            let type = document.getElementById("adminCommitteeType").value;
+            if(globalCommittees && globalCommittees[type]) {
+                document.getElementById("adminCommitteeDesc").value = globalCommittees[type];
+            } else {
+                document.getElementById("adminCommitteeDesc").value = "";
+            }
+        }
+
+        function saveCommitteeData() {
+            let pin = document.getElementById("adminPinInput").value;
+            if(pin !== DEFAULT_PIN) {
+                showCustomModal("ভুল পিন", "সঠিক পিন (1234) দিন।");
+                return;
+            }
+            let type = document.getElementById("adminCommitteeType").value;
+            let desc = document.getElementById("adminCommitteeDesc").value;
+            db.ref('committees/' + type).set(desc).then(() => {
+                showCustomModal("সফল", "কমিটি সফলভাবে আপডেট করা হয়েছে।");
+            });
+        }
+
+        function updateAdminNews() {
+            let newsText = document.getElementById("adminNewsInput").value;
+            if(newsText !== "") {
+                db.ref('appSettings/news').set(newsText).then(() => { showCustomModal("সফল", "নিউজ পাবলিশ হয়েছে।"); showScreen('homeScreen'); });
+            } else { showCustomModal("সতর্কতা", "নিউজ ফাঁকা রাখা যাবে না।"); }
+        }
+
+        function deleteAdminNews() {
+            db.ref('appSettings/news').remove().then(() => {
+                showCustomModal("সফল", "নিউজ ডিলেট করা হয়েছে।");
+                document.getElementById("adminNewsInput").value = "";
+                showScreen('homeScreen');
+            });
+        }
+
+        function previewAdminCatImage(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = new Image(); img.onload = function() {
+                        let canvas = document.createElement("canvas"); let MAX_WIDTH = 600; let MAX_HEIGHT = 400;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                        else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
+                        canvas.width = width; canvas.height = height; let ctx = canvas.getContext("2d"); ctx.drawImage(img, 0, 0, width, height);
+                        adminCatImageBase64 = canvas.toDataURL("image/jpeg", 0.7);
+                        let preview = document.getElementById("adminCatImgPreview"); preview.src = adminCatImageBase64; preview.style.display = "block";
+                    }; img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitCategoryPost() {
+            let cat = document.getElementById("adminCatSelect").value;
+            let title = document.getElementById("adminCatTitle").value;
+            let desc = document.getElementById("adminCatDesc").value;
+            if(title !== "" && desc !== "") {
+                showCustomModal("অপেক্ষা করুন", "পোস্ট করা হচ্ছে...");
+                let postId = 'POST-' + Date.now();
+                db.ref('categoryPosts/' + cat + '/' + postId).set({
+                    id: postId, title: title, desc: desc, image: adminCatImageBase64, date: new Date().toLocaleDateString('en-GB')
+                }).then(() => {
+                    showCustomModal("সফল", "পোস্ট সফলভাবে পাবলিশ হয়েছে!");
+                    document.getElementById("adminCatTitle").value = ""; 
+                    document.getElementById("adminCatDesc").value = "";
+                    document.getElementById("adminCatImgPreview").style.display = "none";
+                    document.getElementById("adminCatImageInput").value = "";
+                    adminCatImageBase64 = "";
+                });
+            } else { showCustomModal("সতর্কতা", "শিরোনাম ও বিস্তারিত লিখুন।"); }
+        }
+
+        function deleteCategoryPost(cat, postId) {
+            showCustomModal("সতর্কতা", "আপনি কি এই পোস্টটি ডিলেট করতে চান?", true, function() {
+                db.ref('categoryPosts/' + cat + '/' + postId).remove().then(() => {
+                    showCustomModal("সফল", "পোস্ট ডিলেট করা হয়েছে।");
+                });
+            });
+        }
+
+        // ==========================================
+        // রেন্ডার সিস্টেম (কমিটি, লিডারবোর্ড ও ক্যাটাগরি)
+        // ==========================================
+        function loadTopDonorsLeaderboard() {
+            let lbDiv = document.getElementById("topDonorsLeaderboard");
+            lbDiv.innerHTML = "লোড হচ্ছে...";
+            db.ref('users').once('value').then(snap => {
+                if(snap.exists()) {
+                    let users = snap.val();
+                    let donors = [];
+                    Object.keys(users).forEach(k => {
+                        let u = users[k];
+                        if(u.lastDonationDate) {
+                            donors.push(u);
+                        }
+                    });
+                    if(donors.length === 0) {
+                        lbDiv.innerHTML = "<p style='color:#666; font-size:14px; margin:0;'>এখনো কোনো রক্তদানের তথ্য নেই।</p>";
+                        return;
+                    }
+                    let html = "";
+                    donors.slice(0, 5).forEach((d, index) => {
+                        html += `
+                            <div class="leaderboard-item">
+                                <span>${index + 1}. ${d.name} (${d.union || 'রায়পুর'})</span>
+                                <span style="color: #d32f2f;">🩸 ${d.group}</span>
+                            </div>
+                        `;
+                    });
+                    lbDiv.innerHTML = html;
+                } else {
+                    lbDiv.innerHTML = "<p style='color:#666; font-size:14px; margin:0;'>কোনো সদস্য নেই।</p>";
+                }
+            });
+        }
+
+        function renderCommitteeView(key) {
+            let contentDiv = (key === 'upazila') ? document.getElementById("upazilaCommitteeContent") : document.getElementById("unionDetailContent");
+            if(globalCommittees && globalCommittees[key]) {
+                let text = globalCommittees[key];
+                contentDiv.innerHTML = `<div class="committee-card"><p>${text.replace(/\n/g, '<br>')}</p></div>`;
+            } else {
+                contentDiv.innerHTML = `<div class="committee-card"><p>এই কমিটির তথ্য এখনো আপডেট করা হয়নি।</p></div>`;
+            }
+        }
+
+        function openUnionDetail(unionName) {
+            document.getElementById("unionDetailTitle").innerText = unionName + " ইউনিয়ন কমিটি";
+            renderCommitteeView(unionName);
+            showScreen("unionDetailScreen");
+        }
+
+        function renderCategoryData(screenId) {
+            let container = document.getElementById("catData_" + screenId);
+            if(!container) return;
+            if(globalCategoryPosts && globalCategoryPosts[screenId]) {
+                let postsObj = globalCategoryPosts[screenId];
+                let postsArray = Object.keys(postsObj).map(key => postsObj[key]);
+                postsArray.reverse();
+                let html = "";
+                postsArray.forEach(p => {
+                    let imgTag = p.image ? `<img src="${p.image}">` : "";
+                    let deleteBtn = (globalUserData && globalUserData.phone === ADMIN_PHONE) ? `<button class="btn-delete-admin" onclick="deleteCategoryPost('${screenId}', '${p.id}')">✖ ডিলেট পোস্ট</button>` : "";
+                    
+                    html += `
+                        <div class="post-card">
+                            ${imgTag}
+                            <div class="post-card-body">
+                                ${deleteBtn}
+                                <h4>${p.title}</h4>
+                                <p>${p.desc.replace(/\n/g, '<br>')}</p>
+                                <span class="post-date">📅 প্রকাশিত: ${p.date}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<div class="form-box text-center" style="color:#888;">এই ক্যাটাগরিতে এখনো কোনো আপডেট বা ছবি নেই।</div>`;
+            }
+        }
+        // ==========================================
+
+        function calculateDonationTime(dateStr) {
+            if(!dateStr) return "তথ্য নেই";
+            let dDate = new Date(dateStr);
+            let today = new Date();
+            let months = (today.getFullYear() - dDate.getFullYear()) * 12 + (today.getMonth() - dDate.getMonth());
+            if(months < 0) return "সঠিক নয়";
+            if(months === 0) return "চলতি মাসে দান করেছেন";
+            return months + " মাস আগে";
+        }
+
+        function loadDigitalIdCard() {
+            if(globalUserData) {
+                document.getElementById("fullIdImg").src = globalUserData.photo;
+                document.getElementById("fullIdName").innerText = globalUserData.name;
+                document.getElementById("fullIdDesig").innerText = globalUserData.designation;
+                document.getElementById("fullIdUnion").innerText = "ইউনিয়ন: " + (globalUserData.union || "রায়পুর");
+                document.getElementById("fullIdPhone").innerText = "মোবাইল: " + globalUserData.phone;
+                document.getElementById("fullIdNo").innerText = globalUserData.id;
+            }
+        }
+
+        function loadFullProfileData() {
+            if(globalUserData) {
+                let timeAgo = calculateDonationTime(globalUserData.lastDonationDate);
+                let html = `
+                    <div style="background: #f9f9f9; padding:15px; border-radius:10px; border:1px solid #eee; margin-bottom: 20px;">
+                        <div class="info-row"><strong>পিতার নাম:</strong> <span>${globalUserData.fName || '-'}</span></div>
+                        <div class="info-row"><strong>ইউনিয়ন:</strong> <span>${globalUserData.union || 'রায়পুর'}</span></div>
+                        <div class="info-row"><strong>পেশা:</strong> <span>${globalUserData.profession || '-'}</span></div>
+                        <div class="info-row"><strong>রক্তের গ্রুপ:</strong> <span style="color:#d32f2f; font-weight:bold; font-size:16px;">${globalUserData.group}</span></div>
+                        <div class="info-row"><strong>সর্বশেষ রক্তদান:</strong> <span style="color:#1976d2; font-weight:bold;">${globalUserData.lastDonationDate || 'দেওয়া নেই'} (${timeAgo})</span></div>
+                        <div class="info-row"><strong>মোবাইল:</strong> <span>${globalUserData.phone}</span></div>
+                        <div class="info-row" style="border-bottom:none; margin-bottom:0; padding-bottom:0;"><strong>গ্রাম:</strong> <span>${globalUserData.village || '-'}</span></div>
+                    </div>
+                `;
+                document.getElementById("userProfileCard").innerHTML = html; renderNotifications();
+            }
+        }
+
+        // সার্টিফিকেট জেনারেটর ফাংশন
+        function generateCertificate() {
+            let date = document.getElementById("certDonationDate").value;
+            let cBox = document.getElementById("certificateContainer");
+            if(!date) {
+                showCustomModal("সতর্কতা", "দয়া করে রক্তদানের তারিখ নির্বাচন করুন।");
+                return;
+            }
+            cBox.innerHTML = `
+                <div class="certificate-box">
+                    <h3 style="margin:0; color:#00796b;">মানব কল্যাণ ফোরাম</h3>
+                    <p style="margin:2px 0; font-size:12px; color:#555;">রায়পুর, লক্ষ্মীপুর</p>
+                    <h2 style="margin:15px 0 5px 0;">প্রশংসাপত্র</h2>
+                    <p style="font-size:14px; margin:5px 0;">এই প্রশংসাপত্র প্রদান করা হচ্ছে যে,</p>
+                    <h3 style="color:#d32f2f; margin:5px 0; font-size:20px;">${globalUserData.name}</h3>
+                    <p style="font-size:14px; margin:5px 0;">সদস্য আইডি: <b>${globalUserData.id}</b></p>
+                    <p style="font-size:13px; color:#444; line-height:1.5; margin:10px 0;">তিনি স্বেচ্ছায় ও হাসিমুখে রক্তদান করে মানবতার কল্যাণে অনন্য অবদান রেখেছেন।</p>
+                    <p style="font-size:12px; margin-top:15px; color:#666;">রক্তদানের তারিখ: ${date}</p>
+                </div>
+                <div class="certificate-actions">
+                    <button class="submit-btn" style="background:#00796b; flex:1;" onclick="window.print()">📥 ডাউনলোড বা প্রিন্ট করুন</button>
+                    <button class="submit-btn" style="background:#607d8b; flex:1;" onclick="hideCertificate()">✖ হাইড করুন</button>
+                </div>
+            `;
+        }
+
+        function hideCertificate() {
+            document.getElementById("certificateContainer").innerHTML = "";
+            document.getElementById("certDonationDate").value = "";
+        }
+
+        function renderNotifications() {
+            let dismissed = globalUserData.dismissedRequests || [];
+            let visibleReqs = globalRequests.filter(r => !dismissed.includes(r.id));
+            let notiArea = document.getElementById("dynamicNotiArea");
+            if(visibleReqs.length > 0) {
+                let notiHtml = `<div style="margin-top:20px; border-top:2px dashed #d32f2f; padding-top:15px;"><h4 style="color:#d32f2f; margin:0 0 10px 0; font-size:18px; text-align: center;">🔔 রক্তের জরুরি রিকুয়েষ্ট</h4>`;
+                visibleReqs.forEach(r => {
+                    notiHtml += `<div class="request-card"><button type="button" class="btn-cancel-req" onclick="dismissRequest(event, '${r.id}')">✖ বাতিল</button>
+                    <h4>🩸 রক্তের গ্রুপ: ${r.group}</h4><p><strong>সমস্যা:</strong> ${r.problem}</p><p><strong>হাসপাতাল:</strong> ${r.hospital}</p><p><strong>ঠিকানা:</strong> ${r.address}</p><p><strong>মোবাইল:</strong> <a href="tel:${r.phone}" class="hotline-link">${r.phone}</a></p></div>`;
+                });
+                notiHtml += `</div>`; notiArea.innerHTML = notiHtml;
+            } else { notiArea.innerHTML = ""; }
+            setupHomeScreenProfile();
+        }
+
+        window.dismissRequest = function(event, reqId) {
+            event.preventDefault(); event.stopPropagation(); 
+            if(!globalUserData.dismissedRequests) globalUserData.dismissedRequests = [];
+            if(!globalUserData.dismissedRequests.includes(reqId)) {
+                globalUserData.dismissedRequests.push(reqId);
+                db.ref('users/' + globalUserData.id + '/dismissedRequests').set(globalUserData.dismissedRequests);
+            }
+            renderNotifications();
+        };
+
+        function submitBloodRequest() {
+            let problem = document.getElementById("reqProblem").value;
+            let hospital = document.getElementById("reqHospital").value;
+            let phone = document.getElementById("reqPhone").value;
+            if(problem !== "" && hospital !== "" && phone !== "") {
+                showCustomModal("অপেক্ষা করুন", "রিকুয়েষ্ট পাঠানো হচ্ছে...");
+                let reqId = 'REQ-' + Date.now();
+                db.ref('bloodRequests/' + reqId).set({ id: reqId, group: document.getElementById("reqGroup").value, problem: problem, hospital: hospital, address: document.getElementById("reqAddress").value, phone: phone }).then(() => {
+                    showCustomModal("সফল!", "রক্তের রিকুয়েষ্ট পোস্ট হয়েছে।"); document.getElementById("reqProblem").value = ""; document.getElementById("reqHospital").value = ""; document.getElementById("reqAddress").value = ""; document.getElementById("reqPhone").value = ""; setTimeout(() => { showScreen('profileScreen'); }, 1500);
+                });
+            } else { showCustomModal("সতর্কতা", "জরুরি তথ্যগুলো পূরণ করুন।"); }
+        }
+
+        function searchDonors() {
+            let bGroup = document.getElementById("filterBloodGroup").value; let uName = document.getElementById("filterUnion").value;
+            let resultDiv = document.getElementById("donorSearchResults"); resultDiv.innerHTML = `<div class="form-box text-center">খুঁজছি...</div>`;
+            db.ref('users').once('value').then(snapshot => {
+                let allMembers = []; snapshot.forEach(child => { allMembers.push(child.val()); });
+                let filtered = allMembers.filter(m => { return (bGroup === "" || m.group === bGroup) && (uName === "" || m.union === uName); });
+                if(filtered.length === 0) {
+                    resultDiv.innerHTML = `<div class="form-box text-center" style="color:#888;">কোনো রক্তদাতা পাওয়া যায়নি।</div>`;
+                } else {
+                    resultDiv.innerHTML = "";
+                    filtered.forEach(d => {
+                        let timeAgo = calculateDonationTime(d.lastDonationDate);
+                        resultDiv.innerHTML += `
+                            <div class="form-box" style="border-left: 5px solid #d32f2f; margin-top:10px;">
+                                <h3 style="margin:0; color:#d32f2f; font-size:18px;">${d.name} (${d.id})</h3>
+                                <p style="margin:6px 0 3px;"><strong>রক্তের গ্রুপ:</strong> <span style="color:#d32f2f; font-weight:bold; font-size:16px;">${d.group}</span></p>
+                                <p style="margin:3px 0; font-size:14px; color:#555;"><strong>ইউনিয়ন:</strong> ${d.union || 'রায়পুর'} | <strong>গ্রাম:</strong> ${d.village || '-'}</p>
+                                <p style="margin:3px 0; font-size:14px; color:#1976d2;"><strong>সর্বশেষ দান:</strong> ${d.lastDonationDate || 'দেওয়া নেই'} (${timeAgo})</p>
+                                <a href="tel:${d.phone}" class="hotline-link" style="background:#388e3c; color:white; padding:8px 15px; margin-top:8px;">📞 কল দিন (${d.phone})</a>
+                            </div>`;
+                    });
+                }
+            });
+        }
+
+        function submitDonationTrx() {
+            let sender = document.getElementById("donSenderNum").value; let amount = document.getElementById("donAmount").value; let trxId = document.getElementById("donTrxId").value;
+            if (trxId !== "" && amount !== "") {
+                db.ref('donations/' + 'DON-' + Date.now()).set({ sender: sender, amount: amount, trxId: trxId, date: new Date().toLocaleDateString() }).then(() => {
+                    showCustomModal("সফল!", "আপনার ট্রানজেকশন সফলভাবে সাবমিট হয়েছে।"); document.getElementById("donSenderNum").value = ""; document.getElementById("donAmount").value = ""; document.getElementById("donTrxId").value = "";
+                });
+            } else { showCustomModal("সতর্কতা", "টাকার পরিমাণ এবং TrxID দিন।"); }
+        }
+
+        function openEditProfile() {
+            if(globalUserData) {
+                currentBase64Image = globalUserData.photo; document.getElementById("editProfilePreview").src = currentBase64Image;
+                document.getElementById("editName").value = globalUserData.name; document.getElementById("editDesignation").value = globalUserData.designation;
+                document.getElementById("editFName").value = globalUserData.fName; document.getElementById("editVillage").value = globalUserData.village;
+                document.getElementById("editUnion").value = globalUserData.union || "১নং উত্তর চর আবাবিল"; document.getElementById("editGroup").value = globalUserData.group;
+                document.getElementById("editLastDonationDate").value = globalUserData.lastDonationDate || "";
+                document.getElementById("editPhone").value = globalUserData.phone;
+                showScreen('editProfileScreen');
+            }
+        }
+
+        function saveEditedProfile() {
+            if(globalUserData) {
+                showCustomModal("অপেক্ষা করুন", "প্রোফাইল সেভ হচ্ছে...");
+                globalUserData.name = document.getElementById("editName").value; globalUserData.fName = document.getElementById("editFName").value;
+                globalUserData.village = document.getElementById("editVillage").value; globalUserData.union = document.getElementById("editUnion").value;
+                globalUserData.group = document.getElementById("editGroup").value; globalUserData.lastDonationDate = document.getElementById("editLastDonationDate").value;
+                globalUserData.phone = document.getElementById("editPhone").value; globalUserData.photo = currentBase64Image;
+                db.ref('users/' + globalUserData.id).set(globalUserData).then(() => { setupHomeScreenProfile(); showCustomModal("সফল", "প্রোফাইল আপডেট হয়েছে।"); showScreen('profileScreen'); });
+            }
+        }
+    </script>
+</body>
+</html>
