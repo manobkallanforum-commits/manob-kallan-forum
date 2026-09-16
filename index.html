@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ক্যাশ ক্লিয়ার করার অটোমেটিক কোড -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>মানব কল্যাণ ফোরাম</title>
     <style>
         :root {
@@ -18,9 +24,13 @@
 
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: var(--light); color: var(--dark); -webkit-tap-highlight-color: transparent;}
         
-        header { background: var(--primary); color: white; padding: 18px 15px; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3); display: flex; flex-direction: column; align-items: center; position: sticky; top: 0; z-index: 100;}
-        header h1 { margin: 0; font-size: 24px; text-align: center; width: 100%; font-weight: 800; letter-spacing: 0.5px;}
-        header p { margin: 5px 0 0; font-size: 13px; line-height: 1.4; text-align: center; opacity: 0.9;}
+        /* লোগো সহ হেডার ডিজাইন */
+        header { background: var(--primary); color: white; padding: 15px; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3); position: sticky; top: 0; z-index: 100; }
+        .header-container { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 600px; margin: 0 auto; }
+        .header-logo { width: 55px; height: 55px; border-radius: 50%; background: #ffffff; padding: 2px; object-fit: cover; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .header-text { display: flex; flex-direction: column; justify-content: center; }
+        .header-text h1 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: 0.5px; text-align: left; }
+        .header-text p { margin: 4px 0 0; font-size: 11.5px; line-height: 1.3; text-align: left; opacity: 0.95; }
 
         .container { padding: 15px; padding-bottom: 50px; }
         
@@ -83,13 +93,6 @@
         .badge-noti { background: #d32f2f; color: white; border-radius: 50%; padding: 3px 8px; font-size: 12px; margin-left: 5px; box-shadow: 0 2px 5px rgba(211,47,47,0.4); animation: pulse 1.5s infinite;}
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* প্রফেশনাল ডিজিটাল আইডি কার্ড ডিজাইন */
-        .id-card-container { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 25px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); text-align: center; max-width: 320px; margin: 20px auto; border: 3px solid #a7ffeb; position: relative; }
-        .id-card-container img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; object-fit: cover; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .id-card-container h2 { margin: 0 0 5px 0; font-size: 22px; font-weight: 800; }
-        .id-card-container p { margin: 4px 0; font-size: 14px; opacity: 0.95; }
-        .id-card-badge { background: #d32f2f; color: white; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-top: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-
         /* অসাধারণ সার্টিফিকেট ডিজাইন */
         .certificate-box { background: linear-gradient(to bottom, #ffffff, #f4fcf9); border: 10px double #00796b; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 15px; position: relative; }
         .certificate-box h3 { color: #00796b; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 1px; }
@@ -98,8 +101,13 @@
 
         .leaderboard-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 4px solid #ff9800; font-weight: bold; }
 
-        .profile-card { background: var(--bg-card); padding: 25px 20px; border-radius: 16px; box-shadow: var(--shadow); text-align: center; border-top: 6px solid #00796b; margin-top: 20px; }
-        .profile-card .info-row { text-align: left; margin-bottom: 12px; font-size: 15px; border-bottom: 1px dashed #e0e0e0; padding-bottom: 8px; display: flex; justify-content: space-between;}
+        /* প্রফেশনাল প্রোফাইল কার্ড ডিজাইন */
+        .profile-card { background: var(--bg-card); padding: 25px 20px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); text-align: center; border-top: 6px solid #00796b; margin-top: 20px; position: relative;}
+        .profile-card .info-container { background: #fff; padding: 5px 15px; border-radius: 12px; border: 1px solid #edf2f7; text-align: left; margin-top: 20px;}
+        .profile-card .info-row { padding: 12px 0; font-size: 15px; border-bottom: 1px dashed #e2e8f0; display: flex; justify-content: space-between; align-items: center; color: #4a5568;}
+        .profile-card .info-row:last-child { border-bottom: none; }
+        .profile-card .info-label { font-weight: 600; color: #2d3748; }
+        .profile-card .info-value { font-weight: 500; text-align: right; }
 
         /* সুন্দর কাস্টম মোডাল পপ-আপ ডিজাইন */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(3px);}
@@ -110,22 +118,22 @@
         .modal-btn-cancel { background: #607d8b; }
         @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* অ্যাকর্ডিয়ন / ড্রপডাউন স্টাইল (অ্যাডমিন প্যানেলের জন্য) */
+        /* অ্যাকর্ডিয়ন / ড্রপডাউন স্টাইল */
         .accordion-header { background: #00796b; color: white; padding: 14px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .accordion-body { display: none; background: #fff; padding: 15px; border: 1.5px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; }
 
         .slider-wrapper { background: var(--bg-card); padding: 10px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 15px;}
-        .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 10px; }
+        .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 10px; scroll-behavior: smooth; }
         .slider::-webkit-scrollbar { height: 4px; }
         .slider::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-        .slide-img { min-width: 100%; height: 180px; object-fit: cover; border-radius: 8px; scroll-snap-align: center; background: #eee; }
+        .slide-img { min-width: 100%; height: 200px; object-fit: cover; border-radius: 8px; scroll-snap-align: center; background: #eee; border: 1px solid #e0e0e0; }
         
         .news-box { background: var(--bg-card); padding: 15px; border-radius: var(--border-radius); border-left: 5px solid #1976d2; font-size: 15px; color: #444; margin-bottom: 10px; box-shadow: var(--shadow); overflow: hidden; position: relative;}
         .marquee-container { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; }
         .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 14s linear infinite; font-weight: bold; color: #d32f2f; }
         @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
 
-        /* মার্ক করা জায়গায় বসানো নতুন টাইম-বেসড গ্রিটিংস স্লাইডার (ব্যাকগ্রাউন্ড সহ) */
+        /* গ্রিটিংস স্লাইডার */
         .greeting-slider-box { background: linear-gradient(135deg, #00796b, #1976d2); color: white; padding: 15px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-top: 20px; overflow: hidden; position: relative; border-left: 6px solid #ff9800; }
         .greeting-marquee { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; }
         .greeting-marquee-content { display: inline-block; padding-left: 100%; animation: marqueeGreeting 14s linear infinite; font-weight: bold; font-size: 16px; color: #ffffff; }
@@ -165,7 +173,6 @@
 </head>
 <body>
 
-    <!-- সুন্দর কাস্টম মোডাল পপ-আপ -->
     <div id="customModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="modalTitle">মেসেজ</h3>
@@ -176,64 +183,52 @@
         </div>
     </div>
 
-    <!-- জরুরি সাইরেন অ্যালার্ট পপ-আপ -->
-    <div id="sirenModal" class="modal-overlay">
-        <div class="modal-content" style="border: 3px solid #d32f2f;">
-            <h3 style="color: #d32f2f; font-size: 22px;">🚨 জরুরি রক্তের আবেদন!</h3>
-            <p id="sirenText" style="font-size: 16px; font-weight: bold; color: #333; line-height: 1.6;"></p>
-            <div class="modal-btn-group">
-                <button class="modal-btn" style="background: #388e3c;" id="sirenCallBtn">📞 কল করুন</button>
-                <button class="modal-btn modal-btn-cancel" onclick="closeSirenModal()">বন্ধ করুন</button>
+    <!-- লোগো সহ হেডার -->
+    <header>
+        <div class="header-container">
+            <img src="logo.jpg" alt="Logo" class="header-logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/55/ffffff/d32f2f?text=MKF'">
+            <div class="header-text">
+                <h1>মানব কল্যাণ ফোরাম</h1>
+                <p>একটি অনলাইন ভিত্তিক স্বেচ্ছাসেবী ও রক্তদানকারী অরাজনৈতিক প্রতিষ্ঠান, রায়পুর।</p>
             </div>
         </div>
-    </div>
-
-    <header>
-        <h1>মানব কল্যাণ ফোরাম</h1>
-        <p>একটি অনলাইন ভিত্তিক স্বেচ্ছাসেবী ও রক্তদানকারী অরাজনৈতিক প্রতিষ্ঠান, রায়পুর।</p>
     </header>
 
     <div class="container">
         
-        <!-- ০. স্প্ল্যাশ/লোডিং স্ক্রিন -->
         <div id="splashScreen" class="screen active">
-            <div style="text-align: center; margin-top: 80px;">
+            <div style="text-align: center; margin-top: 80px;" id="splashContentBox">
                 <h2 style="color: #d32f2f; margin-bottom: 10px;">মানব কল্যাণ ফোরাম</h2>
                 <p style="color: #666; font-size: 14px;">সার্ভারের সাথে কানেক্ট হচ্ছে...</p>
                 <div class="spinner"></div>
             </div>
         </div>
 
-        <!-- ১. অথেন্টিকেশন স্ক্রিন -->
         <div id="authScreen" class="screen">
             <div class="form-box" style="margin-top: 20px; text-align: center;">
-                <img src="https://via.placeholder.com/100/d32f2f/ffffff?text=MKF" style="border-radius: 50%; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <img src="logo.jpg" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onerror="this.onerror=null; this.src='https://via.placeholder.com/100/ffffff/d32f2f?text=MKF'">
                 <h2 style="color: #d32f2f; margin-bottom: 5px; font-weight: 800;">স্বাগতম</h2>
-                <p style="font-size: 14px; color: #666; margin-bottom: 25px;">মানব কল্যাণ ফোরামের অ্যাপে আপনাকে স্বাগতম। দয়া করে লগিন বা নিবন্ধন করুন।</p>
+                <p style="font-size: 14px; color: #666; margin-bottom: 25px;">মানব কল্যাণ ফোরামের অ্যাপে আপনাকে স্বাগতম। দয়া করে লগিন বা নিবন্ধন করুন.</p>
                 <button class="submit-btn" onclick="showScreen('loginScreen')">লগিন করুন</button>
                 <button class="submit-btn btn-outline" onclick="showScreen('registrationScreen')">নতুন সদস্য নিবন্ধন</button>
             </div>
         </div>
 
-        <!-- ২. লগিন স্ক্রিন -->
         <div id="loginScreen" class="screen">
             <button class="back-btn" onclick="showScreen('authScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#d32f2f; margin-bottom: 20px;">লগিন করুন</h2>
             <div class="form-box">
                 <label>মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="loginPhone" placeholder="016XXXXXXXX" required>
-                <!-- পাসওয়ার্ডের অংশ থেকে ডিফল্ট লেখা সম্পূর্ণ মুছে ফেলা হয়েছে -->
                 <label>পাসওয়ার্ডঃ</label>
                 <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড লিখুন" required>
                 <button class="submit-btn" style="margin-top: 10px;" onclick="processLogin()">প্রবেশ করুন</button>
             </div>
         </div>
 
-        <!-- ৩. রেজিস্ট্রেশন স্ক্রিন -->
         <div id="registrationScreen" class="screen">
             <button class="back-btn" onclick="showScreen('authScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">সদস্য নিবন্ধন ফরম</h2>
-            
             <div class="form-box">
                 <div class="profile-upload-wrapper">
                     <img src="https://via.placeholder.com/110?text=Photo" id="profilePreview" class="profile-img-preview">
@@ -300,16 +295,13 @@
                 <input type="date" id="regLastDonationDate">
                 <label>লগিন মোবাইল নাম্বারঃ</label>
                 <input type="tel" id="regPhone" placeholder="016XXXXXXXX">
-                <!-- পাসওয়ার্ডের অংশ থেকে ডিফল্ট লেখা সম্পূর্ণ মুছে ফেলা হয়েছে -->
                 <label>পাসওয়ার্ডঃ</label>
                 <input type="password" id="regPassword" placeholder="পাসওয়ার্ড লিখুন">
                 <button class="submit-btn" style="background:#00796b; margin-top: 10px;" onclick="submitRegistration()">নিবন্ধন সম্পন্ন করুন</button>
             </div>
         </div>
 
-        <!-- ৪. মূল হোম স্ক্রিন -->
         <div id="homeScreen" class="screen">
-            
             <div id="homeProfileSection" style="display: none;">
                 <div class="home-profile-card" onclick="showScreen('profileScreen')">
                     <img src="" id="hpImg" alt="Profile">
@@ -321,13 +313,11 @@
                 </div>
             </div>
 
-            <!-- অ্যাডমিন প্যানেল বাটন -->
             <div class="form-box" id="adminPanelBtn" style="text-align: center; cursor: pointer; padding: 15px; margin-top: 20px; border-left: 5px solid #d81b60; display: none;" onclick="showScreen('adminScreen')">
                 <h3 style="margin: 0; color: #d81b60; font-size: 18px;">⚙️ অ্যাডমিন প্যানেল</h3>
                 <p style="margin: 5px 0 0; font-size: 14px; color: #666;">রক্তদাতা যুক্ত, সদস্য সার্চ/এডিট/রিমুভ ও কন্ট্রোল</p>
             </div>
 
-            <!-- সাংগঠনিক নিউজ (লাইভ) -->
             <div class="section-heading">সাংগঠনিক নিউজ</div>
             <div class="news-box">
                 <div class="marquee-container">
@@ -335,7 +325,6 @@
                 </div>
             </div>
 
-            <!-- সাম্প্রতিক কার্যক্রম -->
             <div class="section-heading">সাম্প্রতিক কার্যক্রম</div>
             <div class="slider-wrapper">
                 <div class="slider" id="imageSlider">
@@ -362,7 +351,6 @@
                 <div class="cat-card cat-brown" onclick="showScreen('hotlineScreen')"><span style="font-size:20px; margin-bottom:5px;">📞</span> জরুরি হটলাইন</div>
             </div>
 
-            <!-- স্ক্রিনশট অনুযায়ী মার্ক করা একদম নিচে ব্যাকগ্রাউন্ড সহ বসানো টাইম-বেসড গ্রিটিংস স্লাইডার -->
             <div class="greeting-slider-box">
                 <div class="greeting-marquee">
                     <div class="greeting-marquee-content" id="timeGreetingText">লোড হচ্ছে...</div>
@@ -370,7 +358,6 @@
             </div>
         </div>
 
-        <!-- অ্যাডমিন প্যানেল স্ক্রিন -->
         <div id="adminScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#d81b60; border-bottom: 2px solid #d81b60; padding-bottom: 10px; margin-bottom: 20px;">অ্যাডমিন কন্ট্রোল প্যানেল</h2>
@@ -449,8 +436,9 @@
                 <button class="submit-btn" style="background:#00796b;" onclick="saveCommitteeData()">কমিটি আপডেট করুন</button>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc5')"><span>৫. 📸 কার্যক্রম ও ক্যাটাগরিতে পোস্ট</span> <span>▼</span></div>
+            <div class="accordion-header" onclick="toggleAccordion('acc5')"><span>৫. 📸 কার্যক্রম ও পোস্ট (যুক্ত ও ডিলেট)</span> <span>▼</span></div>
             <div id="acc5" class="accordion-body">
+                <h4 style="color:#388e3c; margin-top:0;">📝 নতুন পোস্ট করুন:</h4>
                 <label>ক্যাটাগরি নির্বাচন করুন:</label>
                 <select id="adminCatSelect">
                     <option value="activitiesScreen">আমাদের কার্যক্রম</option>
@@ -469,6 +457,22 @@
                 <label>বিস্তারিত বিবরণ:</label>
                 <textarea id="adminCatDesc" rows="4" placeholder="বিস্তারিত লিখুন..."></textarea>
                 <button class="submit-btn" style="background:#388e3c;" onclick="submitCategoryPost()">পোস্ট পাবলিশ করুন</button>
+                
+                <hr style="border: 1px dashed #ccc; margin: 25px 0 15px 0;">
+                
+                <h4 style="color:#d32f2f; margin-top:0;">🗑️ যেকোনো পোস্ট ডিলেট করুন:</h4>
+                <label>ক্যাটাগরি নির্বাচন করুন:</label>
+                <select id="adminDeleteCatSelect" onchange="loadAdminDeleteList()">
+                    <option value="">নির্বাচন করুন...</option>
+                    <option value="activitiesScreen">আমাদের কার্যক্রম (রক্তদানের ছবি সহ)</option>
+                    <option value="eduScreen">শিক্ষা সহায়তা</option>
+                    <option value="envScreen">পরিবেশ ও বৃক্ষরোপণ</option>
+                    <option value="fundScreen">ত্রাণ তহবিল</option>
+                    <option value="awardScreen">সম্মাননা</option>
+                    <option value="medicalScreen">ফ্রি মেডিকেল</option>
+                    <option value="itScreen">আইটি ও দক্ষতা</option>
+                </select>
+                <div id="adminDeleteListContainer" style="margin-top: 10px; max-height: 300px; overflow-y: auto;"></div>
             </div>
 
             <div class="accordion-header" onclick="toggleAccordion('acc6')"><span>৬. 📢 সাংগঠনিক নিউজ ম্যানেজমেন্ট</span> <span>▼</span></div>
@@ -479,7 +483,6 @@
             </div>
         </div>
 
-        <!-- অ্যাডমিন মেম্বার এডিট ও রিমুভ ফর্ম -->
         <div id="adminEditMemberScreen" class="screen">
             <button class="back-btn" onclick="showScreen('adminScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom: 20px;">সদস্যের তথ্য এডিট ও রিমুভ</h2>
@@ -517,12 +520,10 @@
                 <label>সর্বশেষ রক্তদানের তারিখ:</label><input type="date" id="adminEditLastDonationDate">
                 <label>মোবাইল নাম্বারঃ</label><input type="tel" id="adminEditPhone">
                 <button class="submit-btn" style="background:#1976d2; margin-top: 10px;" onclick="saveAdminMemberEdit()">তথ্য আপডেট করুন</button>
-                
                 <button class="btn-delete-member" onclick="deleteAdminMember()">✖ এই সদস্যকে সিস্টেম ও ডাটাবেস থেকে পার্মানেন্ট রিমুভ করুন</button>
             </div>
         </div>
 
-        <!-- ডাইনামিক ক্যাটাগরি স্ক্রিনগুলো -->
         <div id="activitiesScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#00796b;">আমাদের কার্যক্রম</h2><div id="catData_activitiesScreen">লোড হচ্ছে...</div></div>
         <div id="eduScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#1976d2;">শিক্ষা সহায়তা</h2><div id="catData_eduScreen">লোড হচ্ছে...</div></div>
         <div id="envScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#388e3c;">পরিবেশ ও বৃক্ষরোপণ</h2><div id="catData_envScreen">লোড হচ্ছে...</div></div>
@@ -531,7 +532,6 @@
         <div id="medicalScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#d81b60;">মেডিকেল সেবা</h2><div id="catData_medicalScreen">লোড হচ্ছে...</div></div>
         <div id="itScreen" class="screen"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button><h2 class="text-center" style="color:#3949ab;">আইটি ও দক্ষতা উন্নয়ন</h2><div id="catData_itScreen">লোড হচ্ছে...</div></div>
 
-        <!-- উপজেলা কমিটি স্ক্রিন -->
         <div id="upazilaCommitteeScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
             <h2 class="text-center" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">উপজেলা কমিটি</h2>
@@ -541,7 +541,6 @@
             <div id="upazilaCommitteeContent">লোড হচ্ছে...</div>
         </div>
 
-        <!-- ইউনিয়ন কমিটি লিস্ট স্ক্রিন -->
         <div id="unionCommitteeScreen" class="screen">
             <button class="back-btn" onclick="showScreen('upazilaCommitteeScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; margin-bottom: 20px;">ইউনিয়ন কমিটি সমূহ</h2>
@@ -559,31 +558,12 @@
             </ul>
         </div>
 
-        <!-- সুনির্দিষ্ট ইউনিয়ন ডিটেইল স্ক্রিন -->
         <div id="unionDetailScreen" class="screen">
             <button class="back-btn" onclick="showScreen('unionCommitteeScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" id="unionDetailTitle" style="color:#00796b; border-bottom: 2px solid #00796b; padding-bottom: 10px; margin-bottom: 20px;">ইউনিয়ন কমিটি</h2>
             <div id="unionDetailContent">লোড হচ্ছে...</div>
         </div>
 
-        <!-- ডিজিটাল আইডি কার্ড স্ক্রিন (আলাদা পেজ, প্রিন্ট/পিডিএফ/স্ক্রিনশট অপশনসহ) -->
-        <div id="digitalIdScreen" class="screen">
-            <button class="back-btn" onclick="showScreen('profileScreen')">⬅ প্রোফাইলে ফিরে যান</button>
-            <h2 class="text-center" style="color:#00796b;">আমার ডিজিটাল আইডি কার্ড</h2>
-            <div class="id-card-container" id="printableIdCard">
-                <img src="" id="fullIdImg" alt="Photo">
-                <h2 id="fullIdName">নাম</h2>
-                <p id="fullIdDesig">পদবী</p>
-                <p id="fullIdUnion">ইউনিয়ন</p>
-                <p id="fullIdPhone">মোবাইল</p>
-                <div class="id-card-badge" id="fullIdNo">MKF-0001</div>
-            </div>
-            <div style="text-align: center; margin-top: 15px;">
-                <button class="submit-btn" style="background:#00796b; max-width: 320px;" onclick="window.print()">📥 আইডি কার্ড ডাউনলোড / পিডিএফ করুন</button>
-            </div>
-        </div>
-
-        <!-- আর্থিক সহায়তা -->
         <div id="donationScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
             <h2 class="text-center" style="color:#00acc1; border-bottom: 2px solid #00acc1; padding-bottom: 10px; margin-bottom: 20px;">আর্থিক সহায়তা</h2>
@@ -615,13 +595,8 @@
         <!-- রক্তদাতা খুঁজুন স্ক্রিন -->
         <div id="bloodScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
-            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom:20px;">রক্তদাতা খুঁজুন ও লিডারবোর্ড</h2>
+            <h2 class="text-center" style="color:#d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom:20px;">রক্তদাতা খুঁজুন</h2>
             
-            <div class="form-box" style="border-left: 5px solid #ff9800; background: #fff8e1;">
-                <h3 style="margin-top: 0; color: #e65100; font-size: 16px;">🏆 শীর্ষ রক্তদাতা ও স্বেচ্ছাসেবক লিডারবোর্ড</h3>
-                <div id="topDonorsLeaderboard">লোড হচ্ছে...</div>
-            </div>
-
             <div class="form-box">
                 <label>রক্তের গ্রুপ নির্বাচন করুন:</label>
                 <select id="filterBloodGroup">
@@ -646,9 +621,30 @@
                     <option value="১০নং রায়পুর">১০নং রায়পুর</option>
                 </select>
                 <button class="submit-btn" onclick="searchDonors()">খুঁজুন</button>
-                <button class="submit-btn" style="background:#1976d2; margin-top:15px;" onclick="showScreen('bloodRequestScreen')">📢 জরুরি রক্তের জন্য রিকুয়েষ্ট দিন</button>
+                
+                <div style="display:flex; flex-direction:column; gap:12px; margin-top:20px;">
+                    <button class="submit-btn" style="background:#1976d2;" onclick="showScreen('bloodRequestScreen')">📢 জরুরি রক্তের জন্য রিকুয়েষ্ট দিন</button>
+                    <button class="submit-btn" style="background:#388e3c;" onclick="showScreen('uploadDonationPhotoScreen')">📸 রক্তদানের ছবি আপলোড দিন</button>
+                </div>
             </div>
             <div id="donorSearchResults"></div>
+        </div>
+
+        <div id="uploadDonationPhotoScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('bloodScreen')">⬅ ফিরে যান</button>
+            <h2 class="text-center" style="color:#388e3c; border-bottom: 2px solid #388e3c; padding-bottom: 10px; margin-bottom:20px;">রক্তদানের ছবি আপলোড</h2>
+            <div class="form-box">
+                <p style="font-size:14px; color:#555; text-align:center; margin-bottom:15px;">আপনার রক্তদানের ছবিটি এখানে আপলোড করুন। এটি হোমপেজের 'সাম্প্রতিক কার্যক্রম' স্লাইডারে এবং কার্যক্রমে সবাইকে দেখানো হবে।</p>
+                
+                <label>ছবি নির্বাচন করুন:</label>
+                <input type="file" accept="image/*" onchange="previewUserDonationPhoto(event)">
+                <img src="" id="userDonationImgPreview" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; display: none;">
+                
+                <label>ক্যাপশন / অনুভূতি (ঐচ্ছিক):</label>
+                <textarea id="userDonationCaption" rows="3" placeholder="যেমন: আলহামদুলিল্লাহ, আজ স্বেচ্ছায় রক্তদান করলাম..."></textarea>
+                
+                <button class="submit-btn" style="background:#388e3c;" onclick="submitUserDonationPhoto()">ছবি পাবলিশ করুন</button>
+            </div>
         </div>
 
         <div id="bloodRequestScreen" class="screen">
@@ -674,13 +670,16 @@
             </div>
         </div>
 
-        <!-- প্রোফাইল স্ক্রিন -->
+        <!-- আপডেট করা নতুন প্রোফাইল পেজ -->
         <div id="profileScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
             <h2 class="text-center" style="color:#00796b;">আমার প্রোফাইল</h2>
             
-            <!-- রক্তদান প্রশংসাপত্র / সার্টিফিকেট জেনারেটর -->
-            <div class="form-box" style="border-left: 5px solid #d32f2f;">
+            <div class="profile-card" id="userProfileCard" style="margin-top: 10px;"></div>
+
+            <div id="dynamicNotiArea"></div>
+            
+            <div class="form-box" style="border-left: 5px solid #d32f2f; margin-top: 20px;">
                 <h3 style="margin-top: 0; color: #d32f2f;">📜 রক্তদান প্রশংসাপত্র (Certificate)</h3>
                 <label>রক্তদানের তারিখ দিন:</label>
                 <input type="date" id="certDonationDate">
@@ -691,15 +690,6 @@
                 <div id="certificateContainer"></div>
             </div>
 
-            <div class="profile-card" id="userProfileCard"></div>
-
-            <!-- প্রোফাইলের একদম শেষে যুক্ত করা আমার আইডি কার্ড অপশন -->
-            <div class="form-box" style="text-align: center; cursor: pointer; border-left: 5px solid #00796b; background: #e0f2f1; margin-top: 15px;" onclick="showScreen('digitalIdScreen')">
-                <h3 style="margin: 0; color: #00796b; font-size: 18px;">🪪 আমার আইডি কার্ড</h3>
-                <p style="margin: 5px 0 0; font-size: 13px; color: #555;">ক্লিক করে ডিজিটাল আইডি কার্ড দেখুন ও স্ক্রিনশট নিন</p>
-            </div>
-
-            <div id="dynamicNotiArea"></div>
             <div class="action-btns">
                 <button class="btn-edit" onclick="openEditProfile()">এডিট করুন</button>
                 <button class="btn-logout" onclick="logout()">লগআউট</button>
@@ -755,7 +745,6 @@
 
     </div>
 
-    <!-- Firebase SDK (Version 8) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -771,22 +760,30 @@
         const ADMIN_PHONE = "01644234178"; 
         const DEFAULT_PIN = "1234";
         let currentBase64Image = "https://via.placeholder.com/150?text=No+Photo"; 
-        let adminSliderBase64 = "";
         let adminCatImageBase64 = "";
         let adminEditingUserBase64 = "";
+        let userDonationImageBase64 = "";
         let globalUserData = null; 
         let globalRequests = []; 
         let globalCategoryPosts = {};
         let globalCommittees = {};
         let db;
+        let autoSliderInterval; 
 
         document.addEventListener("DOMContentLoaded", function() { setTimeout(initApp, 500); });
 
         function initApp() {
             if (typeof firebase === 'undefined') {
-                document.getElementById('splashScreen').innerHTML = '<div style="text-align:center; margin-top:80px;"><h3 style="color:red;">ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h3></div>';
+                document.getElementById('splashContentBox').innerHTML = '<h3 style="color:red;">ইন্টারনেট সংযোগ বিচ্ছিন্ন!</h3><p>আপনার ইন্টারনেট চেক করুন এবং রিলোড দিন।</p><button class="submit-btn" style="width:150px; margin-top:15px;" onclick="window.location.reload()">রিলোড</button>';
                 return;
             }
+            
+            let loadingTimeout = setTimeout(() => {
+                if(document.getElementById('splashScreen').classList.contains('active')) {
+                    document.getElementById('splashContentBox').innerHTML = '<h3 style="color:red;">সার্ভার কানেকশন সমস্যা!</h3><p style="font-size:14px; color:#555;">আপনার ইন্টারনেট স্পিড স্লো অথবা ডাটাবেস ব্লক হয়ে আছে।</p><button class="submit-btn" style="width:150px; margin-top:20px;" onclick="window.location.reload()">রিলোড করুন</button><br><button class="submit-btn btn-outline" style="width:150px; margin-top:10px;" onclick="forceLoginScreen()">লগিন পেজে যান</button>';
+                }
+            }, 10000);
+
             try {
                 if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
                 db = firebase.database();
@@ -794,6 +791,7 @@
                 let loggedInId = localStorage.getItem("loggedInUserId");
                 if(loggedInId) {
                     db.ref('users/' + loggedInId).once('value').then(snap => {
+                        clearTimeout(loadingTimeout);
                         if(snap.exists()) {
                             globalUserData = snap.val();
                             setupRealtimeListeners();
@@ -802,9 +800,23 @@
                             localStorage.removeItem("loggedInUserId");
                             showScreen("authScreen");
                         }
-                    }).catch(e => { showScreen("authScreen"); });
-                } else { showScreen("authScreen"); }
-            } catch(e) { showScreen("authScreen"); }
+                    }).catch(e => { 
+                        clearTimeout(loadingTimeout);
+                        showScreen("authScreen"); 
+                    });
+                } else { 
+                    clearTimeout(loadingTimeout);
+                    showScreen("authScreen"); 
+                }
+            } catch(e) { 
+                clearTimeout(loadingTimeout);
+                showScreen("authScreen"); 
+            }
+        }
+
+        function forceLoginScreen() {
+            localStorage.removeItem("loggedInUserId");
+            showScreen("authScreen");
         }
 
         function showScreen(screenId) {
@@ -812,13 +824,9 @@
             document.getElementById(screenId).classList.add('active');
             
             if(screenId === 'profileScreen') { loadFullProfileData(); }
-            if(screenId === 'digitalIdScreen') { loadDigitalIdCard(); }
             if(screenId === 'adminScreen') { 
                 loadAdminDonations(); 
                 loadAdminTotalMembersCount();
-            }
-            if(screenId === 'bloodScreen') {
-                loadTopDonorsLeaderboard();
             }
             if(screenId === 'upazilaCommitteeScreen') { renderCommitteeView('upazila'); }
             if(['activitiesScreen', 'eduScreen', 'envScreen', 'fundScreen', 'awardScreen', 'medicalScreen', 'itScreen'].includes(screenId)) {
@@ -857,18 +865,6 @@
                 el.style.display = "block";
             }
         }
-
-        let lastSeenReqId = null;
-        function triggerSirenAlert(req) {
-            if(lastSeenReqId === req.id) return;
-            lastSeenReqId = req.id;
-            document.getElementById("sirenText").innerHTML = `গ্রুপ: <span style="color:#d32f2f;">${req.group}</span><br>হাসপাতাল: ${req.hospital}<br>সমস্যা: ${req.problem}`;
-            document.getElementById("sirenCallBtn").onclick = function() {
-                window.location.href = "tel:" + req.phone;
-            };
-            document.getElementById("sirenModal").style.display = "flex";
-        }
-        function closeSirenModal() { document.getElementById("sirenModal").style.display = "none"; }
 
         function updateIdPlaceholder(radioName, inputId) {
             let idType = document.querySelector(`input[name="${radioName}"]:checked`).value;
@@ -965,7 +961,7 @@
                     if(users[key].password === pass) {
                         globalUserData = users[key]; localStorage.setItem("loggedInUserId", key);
                         setupRealtimeListeners(); closeModal(); showScreen("homeScreen");
-                    } else { showCustomModal("ভুল তথ্য", "পাসওয়ার্ড সঠিক নয়।"); }
+                    } else { showCustomModal("ভুল তথ্য", "পাসওয়ার্ড সঠিক নয়।"); }
                 } else { showCustomModal("ভুল তথ্য", "এই নাম্বারে একাউন্ট নেই।"); }
             }).catch(e => { showCustomModal("সতর্কতা", "ইন্টারনেট সমস্যা।"); });
         }
@@ -996,6 +992,21 @@
             }
         }
 
+        function startAutoSlider() {
+            if(autoSliderInterval) clearInterval(autoSliderInterval);
+            autoSliderInterval = setInterval(() => {
+                let slider = document.getElementById('imageSlider');
+                if(slider && slider.scrollWidth > slider.clientWidth) {
+                    let maxScroll = slider.scrollWidth - slider.clientWidth;
+                    if (slider.scrollLeft >= maxScroll - 10) {
+                        slider.scrollTo({ left: 0, behavior: 'smooth' }); 
+                    } else {
+                        slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth' }); 
+                    }
+                }
+            }, 3500); 
+        }
+
         function setupRealtimeListeners() {
             setupTimeBasedGreeting();
             setInterval(setupTimeBasedGreeting, 60000); 
@@ -1005,14 +1016,6 @@
                 snapshot.forEach(child => { globalRequests.push(child.val()); }); 
                 globalRequests.reverse(); 
                 
-                if(globalRequests.length > 0) {
-                    let latestReq = globalRequests[0];
-                    let dismissed = globalUserData && globalUserData.dismissedRequests ? globalUserData.dismissedRequests : [];
-                    if(!dismissed.includes(latestReq.id)) {
-                        triggerSirenAlert(latestReq);
-                    }
-                }
-
                 setupHomeScreenProfile(); 
                 if(document.getElementById('profileScreen').classList.contains('active')){ loadFullProfileData(); }
             });
@@ -1022,21 +1025,49 @@
                     let data = snapshot.val();
                     if(data.news) { document.getElementById('liveNewsText').innerText = data.news; document.getElementById('adminNewsInput').value = data.news; }
                     else { document.getElementById('liveNewsText').innerText = "কোনো নিউজ নেই।"; document.getElementById('adminNewsInput').value = ""; }
-                    
-                    if(data.sliderImages) {
-                        let sliderDiv = document.getElementById('imageSlider'); sliderDiv.innerHTML = "";
-                        Object.keys(data.sliderImages).forEach(key => { sliderDiv.innerHTML += `<img src="${data.sliderImages[key]}" class="slide-img">`; });
-                    }
                 }
             });
 
             db.ref('categoryPosts').on('value', snapshot => {
                 globalCategoryPosts = snapshot.exists() ? snapshot.val() : {};
+                
                 document.querySelectorAll('.screen.active').forEach(scr => {
                     if(['activitiesScreen', 'eduScreen', 'envScreen', 'fundScreen', 'awardScreen', 'medicalScreen', 'itScreen'].includes(scr.id)) {
                         renderCategoryData(scr.id);
                     }
                 });
+
+                if(document.getElementById('adminScreen').classList.contains('active')) {
+                    loadAdminDeleteList();
+                }
+
+                let allImages = [];
+                Object.keys(globalCategoryPosts).forEach(cat => {
+                    let postsObj = globalCategoryPosts[cat];
+                    Object.keys(postsObj).forEach(postId => {
+                        let post = postsObj[postId];
+                        if(post.image) {
+                            allImages.push(post);
+                        }
+                    });
+                });
+                
+                allImages.sort((a, b) => {
+                    let idA = parseInt(a.id.replace('POST-', '')) || 0;
+                    let idB = parseInt(b.id.replace('POST-', '')) || 0;
+                    return idB - idA;
+                });
+
+                let sliderDiv = document.getElementById('imageSlider');
+                if(allImages.length > 0) {
+                    sliderDiv.innerHTML = "";
+                    allImages.slice(0, 10).forEach(post => {
+                        sliderDiv.innerHTML += `<img src="${post.image}" class="slide-img">`;
+                    });
+                    startAutoSlider(); 
+                } else {
+                    sliderDiv.innerHTML = `<div style="padding: 20px; text-align: center; color: #888; width: 100%;">কোনো সাম্প্রতিক ছবি নেই</div>`;
+                }
             });
 
             db.ref('committees').on('value', snapshot => {
@@ -1362,44 +1393,81 @@
             } else { showCustomModal("সতর্কতা", "শিরোনাম ও বিস্তারিত লিখুন।"); }
         }
 
-        function deleteCategoryPost(cat, postId) {
-            showCustomModal("সতর্কতা", "আপনি কি এই পোস্টটি ডিলেট করতে চান?", true, function() {
+        function loadAdminDeleteList() {
+            let cat = document.getElementById("adminDeleteCatSelect").value;
+            let container = document.getElementById("adminDeleteListContainer");
+            if(cat === "") { container.innerHTML = ""; return; }
+            
+            if(globalCategoryPosts && globalCategoryPosts[cat]) {
+                let posts = Object.values(globalCategoryPosts[cat]).reverse();
+                let html = "";
+                posts.forEach(p => {
+                    html += `
+                        <div style="background:#f9f9f9; border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:8px; display:flex; align-items:center; gap:10px;">
+                            ${p.image ? `<img src="${p.image}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">` : `<div style="width:50px;height:50px;background:#eee;border-radius:4px;"></div>`}
+                            <div style="flex-grow:1; overflow:hidden;">
+                                <h4 style="margin:0; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${p.title}</h4>
+                                <p style="margin:0; font-size:11px; color:#666;">${p.date}</p>
+                            </div>
+                            <button onclick="adminDeletePostAction('${cat}', '${p.id}')" style="background:#ffebee; color:#d32f2f; border:1px solid #ffcdd2; padding:5px 10px; border-radius:4px; font-weight:bold; cursor:pointer;">ডিলেট</button>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = "<p style='color:#888; font-size:13px; text-align:center;'>এই ক্যাটাগরিতে কোনো পোস্ট নেই।</p>";
+            }
+        }
+
+        function adminDeletePostAction(cat, postId) {
+            showCustomModal("সতর্কতা", "আপনি কি নিশ্চিতভাবে এই পোস্টটি ডিলেট করতে চান?", true, function() {
                 db.ref('categoryPosts/' + cat + '/' + postId).remove().then(() => {
-                    showCustomModal("সফল", "পোস্ট ডিলেট করা হয়েছে।");
+                    showCustomModal("সফল", "পোস্টটি সফলভাবে মুছে ফেলা হয়েছে।");
                 });
             });
         }
 
-        function loadTopDonorsLeaderboard() {
-            let lbDiv = document.getElementById("topDonorsLeaderboard");
-            lbDiv.innerHTML = "লোড হচ্ছে...";
-            db.ref('users').once('value').then(snap => {
-                if(snap.exists()) {
-                    let users = snap.val();
-                    let donors = [];
-                    Object.keys(users).forEach(k => {
-                        let u = users[k];
-                        if(u.lastDonationDate) {
-                            donors.push(u);
-                        }
-                    });
-                    if(donors.length === 0) {
-                        lbDiv.innerHTML = "<p style='color:#666; font-size:14px; margin:0;'>এখনো কোনো রক্তদানের তথ্য নেই।</p>";
-                        return;
-                    }
-                    let html = "";
-                    donors.slice(0, 5).forEach((d, index) => {
-                        html += `
-                            <div class="leaderboard-item">
-                                <span>${index + 1}. ${d.name} (${d.union || 'রায়পুর'})</span>
-                                <span style="color: #d32f2f;">🩸 ${d.group}</span>
-                            </div>
-                        `;
-                    });
-                    lbDiv.innerHTML = html;
-                } else {
-                    lbDiv.innerHTML = "<p style='color:#666; font-size:14px; margin:0;'>কোনো সদস্য নেই।</p>";
+        function previewUserDonationPhoto(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = new Image(); img.onload = function() {
+                        let canvas = document.createElement("canvas"); let MAX_WIDTH = 600; let MAX_HEIGHT = 400;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                        else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
+                        canvas.width = width; canvas.height = height; let ctx = canvas.getContext("2d"); ctx.drawImage(img, 0, 0, width, height);
+                        userDonationImageBase64 = canvas.toDataURL("image/jpeg", 0.7);
+                        let preview = document.getElementById("userDonationImgPreview"); preview.src = userDonationImageBase64; preview.style.display = "block";
+                    }; img.src = e.target.result;
                 }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitUserDonationPhoto() {
+            if(!globalUserData) { showCustomModal("সতর্কতা", "আপনাকে আগে লগিন করতে হবে।"); return; }
+            if(userDonationImageBase64 === "") { showCustomModal("সতর্কতা", "দয়া করে রক্তদানের একটি ছবি নির্বাচন করুন।"); return; }
+            
+            showCustomModal("অপেক্ষা করুন", "ছবি আপলোড হচ্ছে...");
+            let caption = document.getElementById("userDonationCaption").value;
+            let postId = 'POST-' + Date.now();
+            let descText = caption !== "" ? caption + "\n\n" : "";
+            descText += `রক্তদাতা: ${globalUserData.name} | রক্তের গ্রুপ: ${globalUserData.group} | ইউনিয়ন: ${globalUserData.union || 'রায়পুর'}`;
+
+            db.ref('categoryPosts/activitiesScreen/' + postId).set({
+                id: postId,
+                title: "🩸 রক্তদান সম্পন্ন",
+                desc: descText,
+                image: userDonationImageBase64,
+                date: new Date().toLocaleDateString('en-GB')
+            }).then(() => {
+                showCustomModal("সফল!", "আপনার রক্তদানের ছবি সফলভাবে আপলোড হয়েছে। হোমপেজে চেক করুন!");
+                document.getElementById("userDonationCaption").value = "";
+                document.getElementById("userDonationImgPreview").style.display = "none";
+                userDonationImageBase64 = "";
+                showScreen('homeScreen');
             });
         }
 
@@ -1429,13 +1497,11 @@
                 let html = "";
                 postsArray.forEach(p => {
                     let imgTag = p.image ? `<img src="${p.image}">` : "";
-                    let deleteBtn = (globalUserData && globalUserData.phone === ADMIN_PHONE) ? `<button class="btn-delete-admin" onclick="deleteCategoryPost('${screenId}', '${p.id}')">✖ ডিলেট পোস্ট</button>` : "";
                     
                     html += `
                         <div class="post-card">
                             ${imgTag}
                             <div class="post-card-body">
-                                ${deleteBtn}
                                 <h4>${p.title}</h4>
                                 <p>${p.desc.replace(/\n/g, '<br>')}</p>
                                 <span class="post-date">📅 প্রকাশিত: ${p.date}</span>
@@ -1449,42 +1515,29 @@
             }
         }
 
-        function calculateDonationTime(dateStr) {
-            if(!dateStr) return "তথ্য নেই";
-            let dDate = new Date(dateStr);
-            let today = new Date();
-            let months = (today.getFullYear() - dDate.getFullYear()) * 12 + (today.getMonth() - dDate.getMonth());
-            if(months < 0) return "সঠিক নয়";
-            if(months === 0) return "চলতি মাসে দান করেছেন";
-            return months + " মাস আগে";
-        }
-
-        function loadDigitalIdCard() {
-            if(globalUserData) {
-                document.getElementById("fullIdImg").src = globalUserData.photo;
-                document.getElementById("fullIdName").innerText = globalUserData.name;
-                document.getElementById("fullIdDesig").innerText = globalUserData.designation;
-                document.getElementById("fullIdUnion").innerText = "ইউনিয়ন: " + (globalUserData.union || "রায়পুর");
-                document.getElementById("fullIdPhone").innerText = "মোবাইল: " + globalUserData.phone;
-                document.getElementById("fullIdNo").innerText = globalUserData.id;
-            }
-        }
-
         function loadFullProfileData() {
             if(globalUserData) {
-                let timeAgo = calculateDonationTime(globalUserData.lastDonationDate);
                 let html = `
-                    <div style="background: #f9f9f9; padding:15px; border-radius:10px; border:1px solid #eee; margin-bottom: 20px;">
-                        <div class="info-row"><strong>পিতার নাম:</strong> <span>${globalUserData.fName || '-'}</span></div>
-                        <div class="info-row"><strong>ইউনিয়ন:</strong> <span>${globalUserData.union || 'রায়পুর'}</span></div>
-                        <div class="info-row"><strong>পেশা:</strong> <span>${globalUserData.profession || '-'}</span></div>
-                        <div class="info-row"><strong>রক্তের গ্রুপ:</strong> <span style="color:#d32f2f; font-weight:bold; font-size:16px;">${globalUserData.group}</span></div>
-                        <div class="info-row"><strong>সর্বশেষ রক্তদান:</strong> <span style="color:#1976d2; font-weight:bold;">${globalUserData.lastDonationDate || 'দেওয়া নেই'} (${timeAgo})</span></div>
-                        <div class="info-row"><strong>মোবাইল:</strong> <span>${globalUserData.phone}</span></div>
-                        <div class="info-row" style="border-bottom:none; margin-bottom:0; padding-bottom:0;"><strong>গ্রাম:</strong> <span>${globalUserData.village || '-'}</span></div>
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <div style="display:inline-block; position:relative;">
+                            <img src="${globalUserData.photo}" onerror="this.src='https://via.placeholder.com/120/00796b/ffffff?text=Photo'" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,121,107,0.3);">
+                        </div>
+                        <h2 style="margin: 15px 0 5px; color: #d32f2f; font-size: 24px;">${globalUserData.name}</h2>
+                        <p style="margin: 0; font-size: 14px; color: #718096; font-weight: bold; background: #edf2f7; display: inline-block; padding: 4px 12px; border-radius: 20px;">সদস্য নং: ${globalUserData.id}</p>
+                    </div>
+                    
+                    <div class="info-container">
+                        <div class="info-row"><span class="info-label">পিতার নাম:</span> <span class="info-value">${globalUserData.fName || '-'}</span></div>
+                        <div class="info-row"><span class="info-label">ইউনিয়ন:</span> <span class="info-value">${globalUserData.union || 'রায়পুর'}</span></div>
+                        <div class="info-row"><span class="info-label">গ্রাম:</span> <span class="info-value">${globalUserData.village || '-'}</span></div>
+                        <div class="info-row"><span class="info-label">পেশা:</span> <span class="info-value">${globalUserData.profession || '-'}</span></div>
+                        <div class="info-row"><span class="info-label">মোবাইল:</span> <span class="info-value"><a href="tel:${globalUserData.phone}" style="color:#1976d2; text-decoration:none; font-weight:bold;">${globalUserData.phone}</a></span></div>
+                        <div class="info-row"><span class="info-label">রক্তের গ্রুপ:</span> <span class="info-value" style="color:#d32f2f; font-weight:800; font-size:18px;">${globalUserData.group}</span></div>
+                        <div class="info-row"><span class="info-label">সর্বশেষ রক্তদান:</span> <span class="info-value" style="color:#388e3c; font-weight:bold;">${globalUserData.lastDonationDate || 'দেওয়া নেই'}</span></div>
                     </div>
                 `;
-                document.getElementById("userProfileCard").innerHTML = html; renderNotifications();
+                document.getElementById("userProfileCard").innerHTML = html; 
+                renderNotifications();
             }
         }
 
@@ -1500,11 +1553,14 @@
                     <h3 style="margin:0; color:#00796b;">মানব কল্যাণ ফোরাম</h3>
                     <p style="margin:2px 0; font-size:12px; color:#555;">রায়পুর, লক্ষ্মীপুর</p>
                     <h2 style="margin:15px 0 5px 0;">প্রশংসাপত্র</h2>
+                    
+                    <img src="${globalUserData.photo}" onerror="this.src='https://via.placeholder.com/80/d32f2f/ffffff?text=Photo'" style="width: 85px; height: 85px; border-radius: 50%; border: 3px solid #00796b; margin: 10px auto; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    
                     <p style="font-size:14px; margin:5px 0;">এই প্রশংসাপত্র প্রদান করা হচ্ছে যে,</p>
                     <h3 style="color:#d32f2f; margin:5px 0; font-size:20px;">${globalUserData.name}</h3>
                     <p style="font-size:14px; margin:5px 0;">সদস্য আইডি: <b>${globalUserData.id}</b></p>
                     <p style="font-size:13px; color:#444; line-height:1.5; margin:10px 0;">তিনি স্বেচ্ছায় ও হাসিমুখে রক্তদান করে মানবতার কল্যাণে অনন্য অবদান রেখেছেন।</p>
-                    <p style="font-size:12px; margin-top:15px; color:#666;">রক্তদানের তারিখ: ${date}</p>
+                    <p style="font-size:12px; margin-top:15px; color:#666; font-weight:bold;">রক্তদানের তারিখ: ${date}</p>
                 </div>
                 <div class="certificate-actions">
                     <button class="submit-btn" style="background:#00796b; flex:1;" onclick="window.print()">📥 ডাউনলোড বা প্রিন্ট করুন</button>
@@ -1567,13 +1623,12 @@
                 } else {
                     resultDiv.innerHTML = "";
                     filtered.forEach(d => {
-                        let timeAgo = calculateDonationTime(d.lastDonationDate);
                         resultDiv.innerHTML += `
                             <div class="form-box" style="border-left: 5px solid #d32f2f; margin-top:10px;">
                                 <h3 style="margin:0; color:#d32f2f; font-size:18px;">${d.name} (${d.id})</h3>
                                 <p style="margin:6px 0 3px;"><strong>রক্তের গ্রুপ:</strong> <span style="color:#d32f2f; font-weight:bold; font-size:16px;">${d.group}</span></p>
                                 <p style="margin:3px 0; font-size:14px; color:#555;"><strong>ইউনিয়ন:</strong> ${d.union || 'রায়পুর'} | <strong>গ্রাম:</strong> ${d.village || '-'}</p>
-                                <p style="margin:3px 0; font-size:14px; color:#1976d2;"><strong>সর্বশেষ দান:</strong> ${d.lastDonationDate || 'দেওয়া নেই'} (${timeAgo})</p>
+                                <p style="margin:3px 0; font-size:14px; color:#1976d2;"><strong>সর্বশেষ দান:</strong> ${d.lastDonationDate || 'দেওয়া নেই'}</p>
                                 <a href="tel:${d.phone}" class="hotline-link" style="background:#388e3c; color:white; padding:8px 15px; margin-top:8px;">📞 কল দিন (${d.phone})</a>
                             </div>`;
                     });
