@@ -2,7 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- জুম বন্ধ করার জন্য viewport আপডেট করা হয়েছে -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- ক্যাশ ক্লিয়ার করার অটোমেটিক কোড -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -93,14 +94,6 @@
         .badge-noti { background: #d32f2f; color: white; border-radius: 50%; padding: 3px 8px; font-size: 12px; margin-left: 5px; box-shadow: 0 2px 5px rgba(211,47,47,0.4); animation: pulse 1.5s infinite;}
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* অসাধারণ সার্টিফিকেট ডিজাইন */
-        .certificate-box { background: linear-gradient(to bottom, #ffffff, #f4fcf9); border: 10px double #00796b; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 15px; position: relative; }
-        .certificate-box h3 { color: #00796b; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 1px; }
-        .certificate-box h2 { color: #d32f2f; margin: 15px 0 5px 0; font-family: 'Georgia', serif; font-size: 26px; }
-        .certificate-actions { display: flex; gap: 10px; margin-top: 15px; }
-
-        .leaderboard-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 4px solid #ff9800; font-weight: bold; }
-
         /* প্রফেশনাল প্রোফাইল কার্ড ডিজাইন */
         .profile-card { background: var(--bg-card); padding: 25px 20px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); text-align: center; border-top: 6px solid #00796b; margin-top: 20px; position: relative;}
         .profile-card .info-container { background: #fff; padding: 5px 15px; border-radius: 12px; border: 1px solid #edf2f7; text-align: left; margin-top: 20px;}
@@ -108,6 +101,12 @@
         .profile-card .info-row:last-child { border-bottom: none; }
         .profile-card .info-label { font-weight: 600; color: #2d3748; }
         .profile-card .info-value { font-weight: 500; text-align: right; }
+
+        /* ইনবক্স মেসেজ কার্ড */
+        .inbox-card { background: #e3f2fd; border-left: 5px solid #1976d2; padding: 15px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .inbox-card h4 { margin: 0 0 5px 0; color: #1976d2; font-size: 16px; display: flex; justify-content: space-between; align-items: center;}
+        .inbox-card p { margin: 0; font-size: 14px; color: #444; line-height: 1.5; }
+        .inbox-date { font-size: 11px; color: #888; font-weight: normal; }
 
         /* সুন্দর কাস্টম মোডাল পপ-আপ ডিজাইন */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(3px);}
@@ -167,8 +166,21 @@
         .request-card h4 { margin: 0 0 8px 0; color: #d32f2f; font-size: 16px;}
         .request-card p { margin: 4px 0; font-size: 14px; color: #444;}
         .btn-cancel-req { position: absolute; top: 12px; right: 12px; background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .btn-delete-admin { background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; float: right; }
-        .btn-delete-member { background: #d32f2f; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* প্রিন্ট করার জন্য স্পেশাল CSS (শুধুমাত্র সার্টিফিকেট প্রিন্ট হবে) */
+        @media print {
+            body * { visibility: hidden; }
+            #certificateContainer, #certificateContainer * { visibility: visible; }
+            #certificateContainer { position: absolute; left: 0; top: 0; width: 100%; }
+            .certificate-actions { display: none !important; }
+            .back-btn, header { display: none !important; }
+            @page { margin: 0; }
+        }
+        
+        /* অসাধারণ সার্টিফিকেট ডিজাইন */
+        .certificate-box { background: linear-gradient(to bottom, #ffffff, #f4fcf9); border: 10px double #00796b; padding: 40px 20px; border-radius: 16px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 15px; position: relative; min-height: 400px;}
+        .certificate-box h3 { color: #00796b; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+        .certificate-box h2 { color: #d32f2f; margin: 15px 0 5px 0; font-family: 'Georgia', serif; font-size: 30px; }
     </style>
 </head>
 <body>
@@ -309,13 +321,14 @@
                         <h3 id="hpName">নাম</h3>
                         <p id="hpId">সদস্য নং:</p>
                     </div>
+                    <!-- হোমপেজেও নোটিফিকেশন ব্যাজ থাকবে -->
                     <div class="arrow">➔ <span id="hpNotiBadge" class="badge-noti" style="display:none;">!</span></div>
                 </div>
             </div>
 
             <div class="form-box" id="adminPanelBtn" style="text-align: center; cursor: pointer; padding: 15px; margin-top: 20px; border-left: 5px solid #d81b60; display: none;" onclick="showScreen('adminScreen')">
                 <h3 style="margin: 0; color: #d81b60; font-size: 18px;">⚙️ অ্যাডমিন প্যানেল</h3>
-                <p style="margin: 5px 0 0; font-size: 14px; color: #666;">রক্তদাতা যুক্ত, সদস্য সার্চ/এডিট/রিমুভ ও কন্ট্রোল</p>
+                <p style="margin: 5px 0 0; font-size: 14px; color: #666;">রক্তদাতা যুক্ত, মেসেজ পাঠানো ও কন্ট্রোল</p>
             </div>
 
             <div class="section-heading">সাংগঠনিক নিউজ</div>
@@ -358,11 +371,42 @@
             </div>
         </div>
 
+        <!-- অ্যাডমিন প্যানেল স্ক্রিন -->
         <div id="adminScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ ফিরে যান</button>
             <h2 class="text-center" style="color:#d81b60; border-bottom: 2px solid #d81b60; padding-bottom: 10px; margin-bottom: 20px;">অ্যাডমিন কন্ট্রোল প্যানেল</h2>
             
-            <div class="accordion-header" onclick="toggleAccordion('acc1')"><span>১. 🩸 নতুন রক্তদাতা যুক্ত করুন</span> <span>▼</span></div>
+            <div class="accordion-header" onclick="toggleAccordion('acc7')"><span>১. 💬 সদস্যদের SMS / মেসেজ পাঠান</span> <span>▼</span></div>
+            <div id="acc7" class="accordion-body">
+                <p style="font-size: 13px; color: #666; margin-top: 0;">অ্যাপের মাধ্যমে সরাসরি সদস্যদের ইনবক্সে SMS পাঠান। এটি সবার প্রোফাইলে নোটিফিকেশন আকারে যাবে।</p>
+                <label>কাকে SMS পাঠাবেন?</label>
+                <div class="radio-group" style="margin-bottom: 10px;">
+                    <label><input type="radio" name="msgType" value="all" checked onchange="toggleAdminMsgTarget()"> সবাইকে (All)</label>
+                    <label><input type="radio" name="msgType" value="specific" onchange="toggleAdminMsgTarget()"> নির্দিষ্ট কাউকে</label>
+                </div>
+                
+                <div id="adminMsgTargetBox" style="display:none; padding:10px; background:#f4f7f6; border-radius:8px; margin-bottom:15px; border: 1px solid #ddd;">
+                    <label style="color:#1976d2;">🔍 সদস্য খুঁজুন (নাম বা মোবাইল):</label>
+                    <input type="text" id="adminMsgSearchInput" placeholder="নাম বা নাম্বার লিখে খুঁজুন..." onkeyup="searchMemberForSMS()">
+                    <div id="adminMsgSearchResult" style="background:#fff; border:1px solid #ddd; max-height:150px; overflow-y:auto; margin-bottom:10px; border-radius:4px; display:none;"></div>
+
+                    <label style="color:#388e3c; margin-top:5px;">নির্বাচিত সদস্য আইডি:</label>
+                    <input type="text" id="adminMsgTargetId" placeholder="এখানে আইডি আসবে" readonly style="background:#e8f5e9; color:#2e7d32; font-weight:bold;">
+                </div>
+
+                <label>SMS / মেসেজ লিখুন:</label>
+                <textarea id="adminMsgText" rows="4" placeholder="আপনার মেসেজ এখানে টাইপ করুন..."></textarea>
+                <button class="submit-btn" style="background:#1976d2;" onclick="sendAdminInboxMessage()">মেসেজ সেন্ড করুন</button>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc2')"><span>২. 🟢 অনলাইনে থাকা সদস্য (Live)</span> <span>▼</span></div>
+            <div id="acc2" class="accordion-body">
+                <div id="onlineUsersCount" style="font-weight: bold; color: #2e7d32; margin-bottom: 10px; font-size: 16px; text-align:center; background:#e8f5e9; padding:8px; border-radius:8px;">বর্তমান অনলাইন: লোড হচ্ছে...</div>
+                <div id="onlineUsersList" style="max-height: 250px; overflow-y: auto;"></div>
+                <button class="submit-btn" style="background:#388e3c; margin-top:10px;" onclick="loadOnlineUsers()">🔄 রিফ্রেশ করুন</button>
+            </div>
+
+            <div class="accordion-header" onclick="toggleAccordion('acc1')"><span>৩. 🩸 নতুন রক্তদাতা যুক্ত করুন</span> <span>▼</span></div>
             <div id="acc1" class="accordion-body">
                 <label>রক্তদাতার নাম:</label><input type="text" id="adminAddDonorName" placeholder="নাম দিন">
                 <label>রক্তের গ্রুপ:</label>
@@ -388,11 +432,11 @@
                 </select>
                 <label>গ্রাম:</label><input type="text" id="adminAddDonorVillage" placeholder="গ্রামের নাম">
                 <label>সর্বশেষ রক্তদানের তারিখ:</label><input type="date" id="adminAddDonorDate">
-                <button class="submit-btn" style="background:#d32f2f; margin-top:10px;" onclick="adminAddNewDonor()">রক্তদাতা সেভ করুন</button>
+                <button class="submit-btn" style="background:#00796b; margin-top:10px;" onclick="adminAddNewDonor()">রক্তদাতা সেভ করুন</button>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc2')"><span>২. 💰 আর্থিক অনুদান তালিকা ও হিসাব</span> <span>▼</span></div>
-            <div id="acc2" class="accordion-body">
+            <div class="accordion-header" onclick="toggleAccordion('acc4')"><span>৪. 💰 আর্থিক অনুদান তালিকা ও হিসাব</span> <span>▼</span></div>
+            <div id="acc4" class="accordion-body">
                 <div id="adminDonationSummary" style="font-weight: bold; margin-bottom: 10px; color: #333;">মোট সংগ্রহ: ৳0</div>
                 <div style="overflow-x: auto;">
                     <table class="donation-table">
@@ -404,17 +448,17 @@
                 </div>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc3')"><span>৩. 🔍 সদস্য সার্চ, এডিট ও রিমুভ</span> <span>▼</span></div>
+            <div class="accordion-header" onclick="toggleAccordion('acc3')"><span>৫. 🔍 সদস্য সার্চ, এডিট ও রিমুভ</span> <span>▼</span></div>
             <div id="acc3" class="accordion-body">
                 <div id="adminTotalMembersCount" style="background: #e0f2f1; color: #00796b; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; text-align: center;">মোট সদস্য ফরম পূরণ করেছেন: গণনা হচ্ছে...</div>
                 <label>নাম, নাম্বার বা সদস্য নং (যেমন: MKF-0001):</label>
                 <input type="text" id="adminSearchQuery" placeholder="খুঁজতে এখানে লিখুন...">
-                <button class="submit-btn" style="background:#1976d2;" onclick="searchAdminMember()">সার্চ করুন</button>
+                <button class="submit-btn" style="background:#00796b;" onclick="searchAdminMember()">সার্চ করুন</button>
                 <div id="adminMemberResult" style="margin-top: 15px;"></div>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc4')"><span>৪. 🏛️ কমিটি ম্যানেজমেন্ট (পিন: 1234)</span> <span>▼</span></div>
-            <div id="acc4" class="accordion-body">
+            <div class="accordion-header" onclick="toggleAccordion('acc8')"><span>৬. 🏛️ কমিটি ম্যানেজমেন্ট (পিন: 1234)</span> <span>▼</span></div>
+            <div id="acc8" class="accordion-body">
                 <label>কমিটি সিলেক্ট করুন:</label>
                 <select id="adminCommitteeType" onchange="loadCommitteeDataForAdmin()">
                     <option value="upazila">উপজেলা কমিটি</option>
@@ -436,7 +480,7 @@
                 <button class="submit-btn" style="background:#00796b;" onclick="saveCommitteeData()">কমিটি আপডেট করুন</button>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc5')"><span>৫. 📸 কার্যক্রম ও পোস্ট (যুক্ত ও ডিলেট)</span> <span>▼</span></div>
+            <div class="accordion-header" onclick="toggleAccordion('acc5')"><span>৭. 📸 কার্যক্রম ও পোস্ট (যুক্ত ও ডিলেট)</span> <span>▼</span></div>
             <div id="acc5" class="accordion-body">
                 <h4 style="color:#388e3c; margin-top:0;">📝 নতুন পোস্ট করুন:</h4>
                 <label>ক্যাটাগরি নির্বাচন করুন:</label>
@@ -456,7 +500,7 @@
                 <img id="adminCatImgPreview" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; display: none;">
                 <label>বিস্তারিত বিবরণ:</label>
                 <textarea id="adminCatDesc" rows="4" placeholder="বিস্তারিত লিখুন..."></textarea>
-                <button class="submit-btn" style="background:#388e3c;" onclick="submitCategoryPost()">পোস্ট পাবলিশ করুন</button>
+                <button class="submit-btn" style="background:#00796b;" onclick="submitCategoryPost()">পোস্ট পাবলিশ করুন</button>
                 
                 <hr style="border: 1px dashed #ccc; margin: 25px 0 15px 0;">
                 
@@ -475,10 +519,10 @@
                 <div id="adminDeleteListContainer" style="margin-top: 10px; max-height: 300px; overflow-y: auto;"></div>
             </div>
 
-            <div class="accordion-header" onclick="toggleAccordion('acc6')"><span>৬. 📢 সাংগঠনিক নিউজ ম্যানেজমেন্ট</span> <span>▼</span></div>
+            <div class="accordion-header" onclick="toggleAccordion('acc6')"><span>৮. 📢 সাংগঠনিক নিউজ ম্যানেজমেন্ট</span> <span>▼</span></div>
             <div id="acc6" class="accordion-body">
                 <textarea id="adminNewsInput" rows="3" placeholder="নতুন নিউজ লিখুন..."></textarea>
-                <button class="submit-btn" style="background:#f57c00; margin-top: 10px;" onclick="updateAdminNews()">নিউজ পাবলিশ করুন</button>
+                <button class="submit-btn" style="background:#00796b; margin-top: 10px;" onclick="updateAdminNews()">নিউজ পাবলিশ করুন</button>
                 <button class="submit-btn btn-outline" style="color:#d32f2f; border-color:#d32f2f; margin-top:10px;" onclick="deleteAdminNews()">নিউজ ডিলেট করুন</button>
             </div>
         </div>
@@ -670,17 +714,24 @@
             </div>
         </div>
 
-        <!-- আপডেট করা নতুন প্রোফাইল পেজ -->
+        <!-- প্রোফাইল পেজ (ইনবক্স ও রক্তের রিকুয়েস্ট সহ) -->
         <div id="profileScreen" class="screen">
             <button class="back-btn" onclick="showScreen('homeScreen')">⬅ হোমে ফিরে যান</button>
             <h2 class="text-center" style="color:#00796b;">আমার প্রোফাইল</h2>
             
             <div class="profile-card" id="userProfileCard" style="margin-top: 10px;"></div>
 
+            <!-- ইনবক্স বাটন -->
+            <div class="form-box" style="text-align: center; cursor: pointer; padding: 15px; margin-top: 20px; border-left: 5px solid #1976d2; background: linear-gradient(135deg, #e3f2fd, #bbdefb); position: relative; border-radius: 15px; box-shadow: 0 4px 10px rgba(25,118,210,0.2);" onclick="showScreen('inboxScreen')">
+                <h3 style="margin: 0; color: #1976d2; font-size: 20px; font-weight: 800;">📥 ইনবক্স <span id="inboxBadge" class="badge-noti" style="display:none; position:absolute; right:20px; top:18px;">!</span></h3>
+            </div>
+
+            <!-- রক্তের রিকুয়েস্টের নোটিফিকেশন এরিয়া -->
             <div id="dynamicNotiArea"></div>
             
+            <!-- সার্টিফিকেট জেনারেটর -->
             <div class="form-box" style="border-left: 5px solid #d32f2f; margin-top: 20px;">
-                <h3 style="margin-top: 0; color: #d32f2f;">📜 রক্তদান প্রশংসাপত্র (Certificate)</h3>
+                <h3 style="margin: 0; color: #d32f2f;">📜 রক্তদান প্রশংসাপত্র (Certificate)</h3>
                 <label>রক্তদানের তারিখ দিন:</label>
                 <input type="date" id="certDonationDate">
                 <div style="display: flex; gap: 10px;">
@@ -693,6 +744,15 @@
             <div class="action-btns">
                 <button class="btn-edit" onclick="openEditProfile()">এডিট করুন</button>
                 <button class="btn-logout" onclick="logout()">লগআউট</button>
+            </div>
+        </div>
+
+        <!-- ইনবক্স স্ক্রিন (মেসেজ পড়ার জন্য) -->
+        <div id="inboxScreen" class="screen">
+            <button class="back-btn" onclick="showScreen('profileScreen')">⬅ প্রোফাইলে ফিরে যান</button>
+            <h2 class="text-center" style="color:#1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 10px; margin-bottom: 20px;">আমার ইনবক্স</h2>
+            <div id="inboxMessagesContainer">
+                <div style="text-align:center; color:#888;">মেসেজ লোড হচ্ছে...</div>
             </div>
         </div>
 
@@ -769,6 +829,7 @@
         let globalCommittees = {};
         let db;
         let autoSliderInterval; 
+        let allInboxMessages = [];
 
         document.addEventListener("DOMContentLoaded", function() { setTimeout(initApp, 500); });
 
@@ -794,6 +855,7 @@
                         clearTimeout(loadingTimeout);
                         if(snap.exists()) {
                             globalUserData = snap.val();
+                            setupPresence();
                             setupRealtimeListeners();
                             showScreen("homeScreen");
                         } else {
@@ -819,15 +881,63 @@
             showScreen("authScreen");
         }
 
+        function setupPresence() {
+            if(!globalUserData) return;
+            var myConnectionsRef = db.ref('onlineUsers/' + globalUserData.id);
+            var connectedRef = db.ref('.info/connected');
+            connectedRef.on('value', function(snap) {
+                if (snap.val() === true) {
+                    myConnectionsRef.set({
+                        id: globalUserData.id,
+                        name: globalUserData.name,
+                        phone: globalUserData.phone,
+                        time: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
+                    });
+                    myConnectionsRef.onDisconnect().remove();
+                }
+            });
+        }
+
+        function loadOnlineUsers() {
+            let container = document.getElementById("onlineUsersList");
+            let countLabel = document.getElementById("onlineUsersCount");
+            container.innerHTML = "<div style='text-align:center;'>লোড হচ্ছে...</div>";
+
+            db.ref('onlineUsers').once('value', snap => {
+                if(snap.exists()) {
+                    let users = snap.val();
+                    let count = Object.keys(users).length;
+                    countLabel.innerText = `বর্তমান অনলাইন: ${count} জন`;
+                    
+                    let html = "";
+                    Object.keys(users).forEach(k => {
+                        let u = users[k];
+                        html += `
+                            <div style="background:#e8f5e9; border-left:4px solid #388e3c; padding:10px; margin-bottom:8px; border-radius:4px;">
+                                <h4 style="margin:0; font-size:15px; color:#2e7d32;">${u.name} <span style="font-size:12px; color:#666;">(${u.id})</span></h4>
+                                <p style="margin:2px 0 0; font-size:13px; color:#555;">📞 ${u.phone} | ⏱️ লগিন: ${u.time}</p>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    countLabel.innerText = "বর্তমান অনলাইন: ০ জন";
+                    container.innerHTML = "<p style='text-align:center; color:#888; margin-top:15px;'>এখন কেউ অনলাইনে নেই।</p>";
+                }
+            });
+        }
+
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             
-            if(screenId === 'profileScreen') { loadFullProfileData(); }
+            if(screenId === 'profileScreen') { loadFullProfileData(); updateInboxBadge(); }
             if(screenId === 'adminScreen') { 
                 loadAdminDonations(); 
                 loadAdminTotalMembersCount();
+                loadOnlineUsers();
             }
+            if(screenId === 'inboxScreen') { renderInboxMessages(); }
             if(screenId === 'upazilaCommitteeScreen') { renderCommitteeView('upazila'); }
             if(['activitiesScreen', 'eduScreen', 'envScreen', 'fundScreen', 'awardScreen', 'medicalScreen', 'itScreen'].includes(screenId)) {
                 renderCategoryData(screenId);
@@ -863,6 +973,77 @@
             } else {
                 document.querySelectorAll('.accordion-body').forEach(b => b.style.display = "none");
                 el.style.display = "block";
+            }
+        }
+
+        function toggleAdminMsgTarget() {
+            let type = document.querySelector('input[name="msgType"]:checked').value;
+            if(type === 'specific') {
+                document.getElementById('adminMsgTargetBox').style.display = 'block';
+            } else {
+                document.getElementById('adminMsgTargetBox').style.display = 'none';
+            }
+        }
+
+        function searchMemberForSMS() {
+            let query = document.getElementById("adminMsgSearchInput").value.trim().toLowerCase();
+            let resDiv = document.getElementById("adminMsgSearchResult");
+            if(query.length < 2) { resDiv.style.display = "none"; return; }
+
+            db.ref('users').once('value').then(snap => {
+                if(snap.exists()) {
+                    let users = snap.val();
+                    let html = "";
+                    Object.keys(users).forEach(k => {
+                        let u = users[k];
+                        let uName = (u.name || "").toLowerCase();
+                        let uPhone = (u.phone || "").toLowerCase();
+                        if(uName.includes(query) || uPhone.includes(query)) {
+                            html += `<div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selectMemberForSMS('${u.id}', '${u.name}')"><strong>${u.name}</strong> (${u.phone}) <br><span style="font-size:12px; color:#1976d2;">ID: ${u.id}</span></div>`;
+                        }
+                    });
+                    if(html !== "") {
+                        resDiv.innerHTML = html;
+                        resDiv.style.display = "block";
+                    } else {
+                        resDiv.innerHTML = "<div style='padding:10px; color:red;'>কোনো সদস্য পাওয়া যায়নি!</div>";
+                        resDiv.style.display = "block";
+                    }
+                }
+            });
+        }
+
+        function selectMemberForSMS(id, name) {
+            document.getElementById("adminMsgTargetId").value = id;
+            document.getElementById("adminMsgSearchInput").value = name + " (" + id + ")";
+            document.getElementById("adminMsgSearchResult").style.display = "none";
+        }
+
+        function sendAdminInboxMessage() {
+            let type = document.querySelector('input[name="msgType"]:checked').value;
+            let text = document.getElementById("adminMsgText").value.trim();
+            if(text === "") { showCustomModal("সতর্কতা", "মেসেজের বক্সে কিছু লিখুন!"); return; }
+
+            showCustomModal("অপেক্ষা করুন", "মেসেজ পাঠানো হচ্ছে...");
+            let msgId = 'MSG-' + Date.now();
+            let dateStr = new Date().toLocaleDateString('en-GB') + " - " + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
+            let payload = { id: msgId, text: text, date: dateStr };
+
+            if(type === "all") {
+                db.ref('messages/global/' + msgId).set(payload).then(() => {
+                    showCustomModal("সফল", "সকল সদস্যের ইনবক্সে মেসেজ পাঠানো হয়েছে!");
+                    document.getElementById("adminMsgText").value = "";
+                });
+            } else {
+                let targetId = document.getElementById("adminMsgTargetId").value.trim().toUpperCase();
+                if(targetId === "") { showCustomModal("সতর্কতা", "নির্দিষ্ট সদস্যের আইডি নাম্বার সিলেক্ট করুন!"); return; }
+                
+                db.ref('messages/private/' + targetId + '/' + msgId).set(payload).then(() => {
+                    showCustomModal("সফল", targetId + " সদস্যের ইনবক্সে মেসেজটি পাঠানো হয়েছে!");
+                    document.getElementById("adminMsgText").value = "";
+                    document.getElementById("adminMsgTargetId").value = "";
+                    document.getElementById("adminMsgSearchInput").value = "";
+                });
             }
         }
 
@@ -924,11 +1105,7 @@
                     let nextNum = 1;
                     existingIds.sort((a, b) => a - b);
                     for(let i = 0; i < existingIds.length; i++) {
-                        if(existingIds[i] === nextNum) {
-                            nextNum++;
-                        } else {
-                            break;
-                        }
+                        if(existingIds[i] === nextNum) { nextNum++; } else { break; }
                     }
 
                     let memberId = "MKF-" + String(nextNum).padStart(4, '0');
@@ -939,12 +1116,14 @@
                         union: document.getElementById("regUnion").value, profession: document.getElementById("regProfession").value,
                         group: document.getElementById("regGroup").value, lastDonationDate: lastDonationDate || "",
                         idType: document.querySelector('input[name="idType"]:checked').value, 
-                        govtIdNumber: govtId, photo: currentBase64Image, dismissedRequests: ["dummy"] 
+                        govtIdNumber: govtId, photo: currentBase64Image, dismissedRequests: ["dummy"], readMessages: ["dummy"], deletedMessages: ["dummy"]
                     };
 
                     db.ref('users/' + memberId).set(userData).then(() => {
                         globalUserData = userData; localStorage.setItem("loggedInUserId", memberId);
-                        setupRealtimeListeners(); showCustomModal("অভিনন্দন!", "নিবন্ধন সফল হয়েছে। আপনার সদস্য নং: " + memberId);
+                        setupPresence();
+                        setupRealtimeListeners(); 
+                        showCustomModal("অভিনন্দন!", "নিবন্ধন সফল হয়েছে। আপনার সদস্য নং: " + memberId);
                         setTimeout(() => { showScreen('homeScreen'); }, 2000);
                     });
                 });
@@ -960,13 +1139,16 @@
                     let users = snapshot.val(); let key = Object.keys(users)[0];
                     if(users[key].password === pass) {
                         globalUserData = users[key]; localStorage.setItem("loggedInUserId", key);
-                        setupRealtimeListeners(); closeModal(); showScreen("homeScreen");
+                        setupPresence();
+                        setupRealtimeListeners(); 
+                        closeModal(); showScreen("homeScreen");
                     } else { showCustomModal("ভুল তথ্য", "পাসওয়ার্ড সঠিক নয়।"); }
                 } else { showCustomModal("ভুল তথ্য", "এই নাম্বারে একাউন্ট নেই।"); }
             }).catch(e => { showCustomModal("সতর্কতা", "ইন্টারনেট সমস্যা।"); });
         }
 
         function logout() {
+            if(globalUserData) { db.ref('onlineUsers/' + globalUserData.id).remove(); }
             localStorage.removeItem("loggedInUserId"); globalUserData = null;
             document.getElementById("homeProfileSection").style.display = "none";
             document.getElementById('adminPanelBtn').style.display = "none";
@@ -976,20 +1158,13 @@
         function setupTimeBasedGreeting() {
             let hour = new Date().getHours();
             let greeting = "শুভ রাত্রি";
-            if (hour >= 5 && hour < 12) {
-                greeting = "শুভ সকাল";
-            } else if (hour >= 12 && hour < 15) {
-                greeting = "শুভ দুপুর";
-            } else if (hour >= 15 && hour < 18) {
-                greeting = "শুভ বিকেল";
-            } else if (hour >= 18 && hour < 22) {
-                greeting = "শুভ সন্ধ্যা";
-            }
+            if (hour >= 5 && hour < 12) { greeting = "শুভ সকাল"; } 
+            else if (hour >= 12 && hour < 15) { greeting = "শুভ দুপুর"; } 
+            else if (hour >= 15 && hour < 18) { greeting = "শুভ বিকেল"; } 
+            else if (hour >= 18 && hour < 22) { greeting = "শুভ সন্ধ্যা"; }
             
             let greetingEl = document.getElementById('timeGreetingText');
-            if(greetingEl) {
-                greetingEl.innerText = `${greeting}! মানব কল্যাণ ফোরামের পক্ষ থেকে আপনাকে জানাই আন্তরিক শুভেচ্ছা।`;
-            }
+            if(greetingEl) { greetingEl.innerText = `${greeting}! মানব কল্যাণ ফোরামের পক্ষ থেকে আপনাকে জানাই আন্তরিক শুভেচ্ছা।`; }
         }
 
         function startAutoSlider() {
@@ -1007,9 +1182,132 @@
             }, 3500); 
         }
 
+        function fetchAndMergeInboxMessages(globalSnap, privateSnap) {
+            allInboxMessages = [];
+            if(globalSnap && globalSnap.exists()) {
+                let globals = globalSnap.val();
+                Object.keys(globals).forEach(k => { allInboxMessages.push(globals[k]); });
+            }
+            if(privateSnap && privateSnap.exists()) {
+                let privates = privateSnap.val();
+                Object.keys(privates).forEach(k => { 
+                    let pMsg = privates[k];
+                    pMsg.isPrivate = true; 
+                    allInboxMessages.push(pMsg); 
+                });
+            }
+            allInboxMessages.sort((a, b) => {
+                let idA = parseInt(a.id.replace('MSG-', '')) || 0;
+                let idB = parseInt(b.id.replace('MSG-', '')) || 0;
+                return idB - idA; 
+            });
+            updateInboxBadge();
+            if(document.getElementById('inboxScreen').classList.contains('active')) {
+                renderInboxMessages();
+            }
+        }
+
+        function updateInboxBadge() {
+            if(!globalUserData) return;
+            let readMsgs = globalUserData.readMessages || [];
+            let deletedMsgs = globalUserData.deletedMessages || [];
+            let unreadCount = 0;
+            allInboxMessages.forEach(m => {
+                if(!readMsgs.includes(m.id) && !deletedMsgs.includes(m.id)) unreadCount++;
+            });
+            
+            let dismissedReqs = globalUserData.dismissedRequests || [];
+            let unreadReqsCount = 0;
+            globalRequests.forEach(r => {
+                if(!dismissedReqs.includes(r.id)) unreadReqsCount++;
+            });
+            
+            let badge1 = document.getElementById("hpNotiBadge");
+            let badge2 = document.getElementById("inboxBadge");
+            
+            if(unreadCount > 0 || unreadReqsCount > 0) {
+                if(badge1) badge1.style.display = "inline-block";
+            } else {
+                if(badge1) badge1.style.display = "none";
+            }
+
+            if(unreadCount > 0) {
+                if(badge2) badge2.style.display = "inline-block";
+            } else {
+                if(badge2) badge2.style.display = "none";
+            }
+        }
+
+        function renderInboxMessages() {
+            let container = document.getElementById("inboxMessagesContainer");
+            let deletedMsgs = globalUserData.deletedMessages || [];
+            let visibleMessages = allInboxMessages.filter(m => !deletedMsgs.includes(m.id));
+
+            if(visibleMessages.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:#888; padding:20px;">আপনার ইনবক্সে কোনো মেসেজ নেই।</div>`;
+                return;
+            }
+            
+            let html = "";
+            let readMsgs = globalUserData.readMessages || [];
+            let needsUpdate = false;
+
+            visibleMessages.forEach(m => {
+                let badge = m.isPrivate ? `<span style="background:#d32f2f; color:white; padding:2px 6px; border-radius:4px; font-size:10px;">পার্সোনাল মেসেজ</span>` : ``;
+                html += `
+                    <div class="inbox-card">
+                        <h4><span>💬 মেসেজ ${badge}</span> <span class="inbox-date">${m.date}</span></h4>
+                        <p style="margin-bottom:10px;">${m.text.replace(/\n/g, '<br>')}</p>
+                        <button onclick="deleteInboxMessage('${m.id}')" style="background:#ffebee; color:#d32f2f; border:1px solid #ffcdd2; padding:6px 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">✖ ডিলেট</button>
+                    </div>
+                `;
+                if(!readMsgs.includes(m.id)) {
+                    readMsgs.push(m.id);
+                    needsUpdate = true;
+                }
+            });
+            container.innerHTML = html;
+
+            if(needsUpdate) {
+                globalUserData.readMessages = readMsgs;
+                db.ref('users/' + globalUserData.id + '/readMessages').set(readMsgs).then(() => {
+                    updateInboxBadge();
+                });
+            }
+        }
+
+        function deleteInboxMessage(id) {
+            showCustomModal("সতর্কতা", "আপনি কি এই মেসেজটি ডিলেট করতে চান?", true, function() {
+                let deletedMsgs = globalUserData.deletedMessages || [];
+                if(!deletedMsgs.includes(id)) {
+                    deletedMsgs.push(id);
+                    globalUserData.deletedMessages = deletedMsgs;
+                    db.ref('users/' + globalUserData.id + '/deletedMessages').set(deletedMsgs).then(() => {
+                        renderInboxMessages();
+                        updateInboxBadge();
+                    });
+                }
+            });
+        }
+
         function setupRealtimeListeners() {
             setupTimeBasedGreeting();
             setInterval(setupTimeBasedGreeting, 60000); 
+
+            let globalMsgSnap = null;
+            let privateMsgSnap = null;
+
+            db.ref('messages/global').on('value', snap => {
+                globalMsgSnap = snap;
+                fetchAndMergeInboxMessages(globalMsgSnap, privateMsgSnap);
+            });
+
+            if(globalUserData && globalUserData.id) {
+                db.ref('messages/private/' + globalUserData.id).on('value', snap => {
+                    privateMsgSnap = snap;
+                    fetchAndMergeInboxMessages(globalMsgSnap, privateMsgSnap);
+                });
+            }
 
             db.ref('bloodRequests').on('value', snapshot => {
                 globalRequests = []; 
@@ -1089,9 +1387,7 @@
                 
                 if(globalUserData.phone === ADMIN_PHONE) { document.getElementById('adminPanelBtn').style.display = "block"; } 
                 else { document.getElementById('adminPanelBtn').style.display = "none"; }
-
-                let dismissed = globalUserData.dismissedRequests || []; let visibleReqs = globalRequests.filter(r => !dismissed.includes(r.id));
-                document.getElementById("hpNotiBadge").style.display = (visibleReqs.length > 0) ? "inline-block" : "none";
+                updateInboxBadge();
             }
         }
 
@@ -1269,7 +1565,9 @@
                     profession: oldUserObj.profession || "স্বেচ্ছাসেবী",
                     govtIdNumber: oldUserObj.govtIdNumber || "-",
                     idType: oldUserObj.idType || "ভোটার আইডি",
-                    dismissedRequests: oldUserObj.dismissedRequests || ["dummy"]
+                    dismissedRequests: oldUserObj.dismissedRequests || ["dummy"],
+                    readMessages: oldUserObj.readMessages || ["dummy"],
+                    deletedMessages: oldUserObj.deletedMessages || ["dummy"]
                 };
 
                 let conflictingKey = null;
@@ -1563,7 +1861,7 @@
                     <p style="font-size:12px; margin-top:15px; color:#666; font-weight:bold;">রক্তদানের তারিখ: ${date}</p>
                 </div>
                 <div class="certificate-actions">
-                    <button class="submit-btn" style="background:#00796b; flex:1;" onclick="window.print()">📥 ডাউনলোড বা প্রিন্ট করুন</button>
+                    <button class="submit-btn" style="background:#00796b; flex:1;" onclick="window.print()">📥 পিডিএফ ডাউনলোড / প্রিন্ট করুন</button>
                     <button class="submit-btn" style="background:#607d8b; flex:1;" onclick="hideCertificate()">✖ হাইড করুন</button>
                 </div>
             `;
