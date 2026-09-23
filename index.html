@@ -1019,7 +1019,7 @@
             document.getElementById("adminMsgSearchResult").style.display = "none";
         }
 
-        // --- পুশ নোটিফিকেশন পাঠানোর নতুন ফাংশন (Google Apps Script ব্যাকএন্ড সংযুক্ত) ---
+        // --- পুশ নোটিফিকেশন পাঠানোর ব্যাকএন্ড ফাংশন (ব্যাকগ্রাউন্ড ও বন্ধ স্কিন সাপোর্ট সহ) ---
         function sendPushNotificationViaServer(titleText, bodyText) {
             var webAppUrl = "https://script.google.com/macros/s/AKfycbyeOXt3TfXjMyZooZ7E0x_Y-VWKzx6Lo4fJKRYWGJVfQ2JPvJ4EP64aD2YLEpW9Qz50/exec";
 
@@ -1037,7 +1037,7 @@
                 body: JSON.stringify(messageData)
             })
             .then(response => {
-                console.log("Push notification sent successfully to server.");
+                console.log("Background Push notification sent successfully.");
             })
             .catch(error => {
                 console.error("Push Notification Error:", error);
@@ -1056,7 +1056,6 @@
 
             if(type === "all") {
                 db.ref('messages/global/' + msgId).set(payload).then(() => {
-                    // সফলভাবে ডাটাবেসে সেভ হওয়ার পর পুশ নোটিফিকেশন ট্রিগার করা হলো
                     sendPushNotificationViaServer("মানব কল্যাণ ফোরাম নতুন বার্তা", text);
                     showCustomModal("সফল", "সকল সদস্যের ইনবক্সে এবং পুশ নোটিফিকেশন পাঠানো হয়েছে!");
                     document.getElementById("adminMsgText").value = "";
@@ -1117,10 +1116,15 @@
             if (name !== "" && phone !== "" && govtId !== "") {
                 showCustomModal("অপেক্ষা করুন", "রেজিস্ট্রেশন হচ্ছে...");
                 
-                db.ref('users').once('value').then(snapshot => {
+                // নতুন ইউজারের ক্ষেত্রে পুরোনো মেসেজ ও রিকুয়েষ্ট পপ-আপ না হওয়ার জন্য मौजूदा ডাটা ফেচ করে ফিল্টার করা
+                Promise.all([
+                    db.ref('users').once('value'),
+                    db.ref('messages/global').once('value'),
+                    db.ref('bloodRequests').once('value')
+                ]).then(([userSnap, globalMsgSnap, reqSnap]) => {
                     let existingIds = [];
-                    if(snapshot.exists()) {
-                        let users = snapshot.val();
+                    if(userSnap.exists()) {
+                        let users = userSnap.val();
                         Object.keys(users).forEach(k => {
                             let uId = users[k].id || "";
                             if(uId.startsWith("MKF-")) {
@@ -1138,13 +1142,30 @@
 
                     let memberId = "MKF-" + String(nextNum).padStart(4, '0');
                     
+                    let existingReadMsgs = ["dummy"];
+                    if(globalMsgSnap.exists()) {
+                        Object.keys(globalMsgSnap.val()).forEach(mKey => {
+                            existingReadMsgs.push(globalMsgSnap.val()[mKey].id);
+                        });
+                    }
+
+                    let existingDismissedReqs = ["dummy"];
+                    if(reqSnap.exists()) {
+                        Object.keys(reqSnap.val()).forEach(rKey => {
+                            existingDismissedReqs.push(reqSnap.val()[rKey].id);
+                        });
+                    }
+
                     let userData = {
                         id: memberId, name: name, designation: "সদস্য", phone: phone, password: password,
                         fName: document.getElementById("regFName").value, village: document.getElementById("regVillage").value,
                         union: document.getElementById("regUnion").value, profession: document.getElementById("regProfession").value,
                         group: document.getElementById("regGroup").value, lastDonationDate: lastDonationDate || "",
                         idType: document.querySelector('input[name="idType"]:checked').value, 
-                        govtIdNumber: govtId, photo: currentBase64Image, dismissedRequests: ["dummy"], readMessages: ["dummy"], deletedMessages: ["dummy"]
+                        govtIdNumber: govtId, photo: currentBase64Image, 
+                        dismissedRequests: existingDismissedReqs, 
+                        readMessages: existingReadMsgs, 
+                        deletedMessages: ["dummy"]
                     };
 
                     db.ref('users/' + memberId).set(userData).then(() => {
@@ -1436,10 +1457,14 @@
 
             if(name !== "" && phone !== "") {
                 showCustomModal("অপেক্ষা করুন", "রক্তদাতা যুক্ত হচ্ছে...");
-                db.ref('users').once('value').then(snapshot => {
+                Promise.all([
+                    db.ref('users').once('value'),
+                    db.ref('messages/global').once('value'),
+                    db.ref('bloodRequests').once('value')
+                ]).then(([userSnap, globalMsgSnap, reqSnap]) => {
                     let existingIds = [];
-                    if(snapshot.exists()) {
-                        let users = snapshot.val();
+                    if(userSnap.exists()) {
+                        let users = userSnap.val();
                         Object.keys(users).forEach(k => {
                             let uId = users[k].id || "";
                             if(uId.startsWith("MKF-")) {
@@ -1454,10 +1479,28 @@
                         if(existingIds[i] === nextNum) { nextNum++; } else { break; }
                     }
                     let memberId = "MKF-" + String(nextNum).padStart(4, '0');
+
+                    let existingReadMsgs = ["dummy"];
+                    if(globalMsgSnap.exists()) {
+                        Object.keys(globalMsgSnap.val()).forEach(mKey => {
+                            existingReadMsgs.push(globalMsgSnap.val()[mKey].id);
+                        });
+                    }
+
+                    let existingDismissedReqs = ["dummy"];
+                    if(reqSnap.exists()) {
+                        Object.keys(reqSnap.val()).forEach(rKey => {
+                            existingDismissedReqs.push(reqSnap.val()[rKey].id);
+                        });
+                    }
+
                     let donorData = {
                         id: memberId, name: name, designation: "রক্তদাতা", phone: phone, password: DEFAULT_PIN,
                         union: union, village: village, group: group, lastDonationDate: lastDonationDate || "",
-                        photo: "https://via.placeholder.com/150?text=Donor", fName: "-", profession: "স্বেচ্ছাসেবী", govtIdNumber: "-"
+                        photo: "https://via.placeholder.com/150?text=Donor", fName: "-", profession: "স্বেচ্ছাসেবী", govtIdNumber: "-",
+                        dismissedRequests: existingDismissedReqs,
+                        readMessages: existingReadMsgs,
+                        deletedMessages: ["dummy"]
                     };
                     db.ref('users/' + memberId).set(donorData).then(() => {
                         showCustomModal("সফল!", "নতুন রক্তদাতা সফলভাবে যুক্ত হয়েছেন। সদস্য আইডি: " + memberId);
@@ -1926,18 +1969,37 @@
         };
 
         function submitBloodRequest() {
+            let group = document.getElementById("reqGroup").value;
             let problem = document.getElementById("reqProblem").value;
             let hospital = document.getElementById("reqHospital").value;
+            let address = document.getElementById("reqAddress").value;
             let phone = document.getElementById("reqPhone").value;
+            
             if(problem !== "" && hospital !== "" && phone !== "") {
                 showCustomModal("অপেক্ষা করুন", "রিকুয়েষ্ট পাঠানো হচ্ছে...");
                 let reqId = 'REQ-' + Date.now();
-                db.ref('bloodRequests/' + reqId).set({ id: reqId, group: document.getElementById("reqGroup").value, problem: problem, hospital: hospital, address: document.getElementById("reqAddress").value, phone: phone }).then(() => {
-                    // রক্ত ও জরুরি রিকুয়েস্টের ক্ষেত্রেও পুশ নোটিফিকেশন ট্রিগার করা যেতে পারে
-                    sendPushNotificationViaServer("জরুরি রক্তের রিকুয়েষ্ট (" + document.getElementById("reqGroup").value + ")", problem + " - হাসপাতাল: " + hospital);
-                    showCustomModal("সফল!", "রক্তের রিকুয়েষ্ট পোস্ট হয়েছে।"); document.getElementById("reqProblem").value = ""; document.getElementById("reqHospital").value = ""; document.getElementById("reqAddress").value = ""; document.getElementById("reqPhone").value = ""; setTimeout(() => { showScreen('profileScreen'); }, 1500);
+                
+                db.ref('bloodRequests/' + reqId).set({ 
+                    id: reqId, 
+                    group: group, 
+                    problem: problem, 
+                    hospital: hospital, 
+                    address: address, 
+                    phone: phone 
+                }).then(() => {
+                    // 🔔 রক্তের জরুরি রিকুয়েষ্ট পোস্ট হওয়া মাত্রই সবার ফোনে পুশ নোটিফিকেশন যাবে
+                    sendPushNotificationViaServer("🚨 জরুরি রক্তের রিকুয়েষ্ট (" + group + ")", "সমস্যা: " + problem + " | হাসপাতাল: " + hospital);
+                    
+                    showCustomModal("সফল!", "রক্তের রিকুয়েষ্ট পোস্ট হয়েছে এবং সবার ফোনে নোটিফিকেশন পাঠানো হয়েছে।"); 
+                    document.getElementById("reqProblem").value = ""; 
+                    document.getElementById("reqHospital").value = ""; 
+                    document.getElementById("reqAddress").value = ""; 
+                    document.getElementById("reqPhone").value = ""; 
+                    setTimeout(() => { showScreen('profileScreen'); }, 1500);
                 });
-            } else { showCustomModal("সতর্কতা", "জরুরি তথ্যগুলো পূরণ করুন।"); }
+            } else { 
+                showCustomModal("সতর্কতা", "জরুরি তথ্যগুলো পূরণ করুন।"); 
+            }
         }
 
         function searchDonors() {
